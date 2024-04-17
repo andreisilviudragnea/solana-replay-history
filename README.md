@@ -9,11 +9,11 @@ It contains a log line "Log truncated".
 The Google Cloud Storage endpoints are:
 
 - https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-us-ny5
-- https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2
+- https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2 (used in this tutorial)
 - https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-asia-sg1
 
 These endpoints are taken
-from [README](https://github.com/solana-labs/solana-bigtable/blob/master/README.md?plain=1#L124)
+from the [README](https://github.com/solana-labs/solana-bigtable/blob/master/README.md?plain=1#L124)
 of [solana-bigtable](https://github.com/solana-labs/solana-bigtable) repository.
 
 For our example, the slot
