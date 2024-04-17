@@ -240,9 +240,21 @@ slot [257207162](https://solscan.io/block/257207162).
 
 ```bash
 cd /mnt
-~/solana/target/release/agave-ledger-tool verify \
+RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool verify \
   --skip-verification \
   --halt-at-slot 257207162 \
   --geyser-plugin-config /root/simple-solana-geyser-plugin/config.json \
   --log-messages-bytes-limit 1000000
 ```
+
+The meaning of all the parameters:
+
+- `--skip-verification` - Skip ledger PoH and transaction verification. This speeds up the ledger replay process.
+- `--halt-at-slot 257207162` - Halt the ledger replay process at slot [257207162](https://solscan.io/block/257207162).
+  The ledger replay process will start from the snapshot slot [257197855](https://solscan.io/block/257197855) until the
+  tx slot.
+- `--geyser-plugin-config /root/simple-solana-geyser-plugin/config.json` - Specify the configuration file for the Geyser
+  plugin.
+- `--log-messages-bytes-limit 1000000` - Maximum number of bytes written to the program log before truncation. This
+  needs to be a bigger value than the default
+  of [10000](https://github.com/anza-xyz/agave/blob/master/program-runtime/src/log_collector.rs#L4).
