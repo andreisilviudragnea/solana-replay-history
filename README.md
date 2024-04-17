@@ -90,8 +90,20 @@ From the same [257034560](https://console.cloud.google.com/storage/browser/mainn
 bucket, download
 the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
 archive (the download link is the public URL
-for [rocksdb.tar.zst](https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) from UI):
+for [rocksdb.tar.zst](https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) from UI).
+
+This can take a while (90 minutes for me), because
+the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
+archive is huge (838.6 GB), so use a screen session if your connection is unstable:
 
 ```bash
 TODO
+```
+
+## 4. Extract the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) archive
+
+This can also take a while, so use a screen session for this command too:
+
+```bash
+tar --use-compress-program=unzstd -xvf rocksdb.tar.zst instead
 ```
