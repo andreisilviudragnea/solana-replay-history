@@ -115,5 +115,5 @@ rocksdb.tar.zst                                    100%[========================
 This can also take a while, so use a screen session for this command too:
 
 ```bash
-tar --use-compress-program=unzstd -xvf rocksdb.tar.zst instead
+tar --use-compress-program=unzstd -xvf rocksdb.tar.zst
 ```
