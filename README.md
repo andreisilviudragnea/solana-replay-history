@@ -117,3 +117,13 @@ This can also take a while, so use a screen session for this command too:
 ```bash
 tar --use-compress-program=unzstd -xvf rocksdb.tar.zst
 ```
+
+In my case, it took 37 minutes:
+```bash
+real    37m4.438s
+user    15m5.566s
+sys     37m2.644s
+```
+
+## 6. Compile ledger-tool with --log-messages-bytes-limit support
+`ledger-tool` does not support `--log-messages-bytes-limit` parameter. I created a branch with support for this parameter:
