@@ -26,7 +26,7 @@ is [257034560](https://console.cloud.google.com/storage/browser/mainnet-beta-led
 
 Check the [bounds.txt](https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/bounds.txt) file inside
 the
-[257034560](https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2/257034560) folder. It should
+[257034560](https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2/257034560) bucket. It should
 contain the tx slot [257207162](https://solscan.io/block/257207162) in the range of ledger data:
 
 ```
@@ -49,11 +49,11 @@ I recommend downloading from the endpoint closest to your machine. In my case, I
 my download speed is the best.
 
 If you check the [257034560](https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2/257034560)
-folder, you
+bucket, you
 will see
 both a snapshot for
 slot [257034560](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/snapshot-257034560-3BEhaqKsp7r3cTwM8HH2wQZDGGRhiwvkQcGMGpsrTJFj.tar.zst)
-and a folder
+and a bucket
 called [hourly](https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2/257034560/hourly)
 containing other snapshots.
 
@@ -87,7 +87,7 @@ snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz 100%[========================
 ## 3. Download ledger archive from Google Cloud Storage for the highest slot less than the tx slot
 
 From the same [257034560](https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2/257034560)
-folder, download
+bucket, download
 the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
 archive (the download link is the public URL
 for [rocksdb.tar.zst](https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) from UI):
