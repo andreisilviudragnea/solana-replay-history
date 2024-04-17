@@ -146,3 +146,9 @@ Running the commands above should give an output something similar to:
 ```bash
 agave-ledger-tool 1.17.32 (src:00000000; feat:3746964731, client:Agave)
 ```
+
+## 7. Check the downloaded ledger data by running `agave-ledger-tool bounds`
+
+```bash
+
+```
