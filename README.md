@@ -43,7 +43,18 @@ The bounds in this file refer to ledger data inside
 the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
 archive.
 
-## 2. Download snapshot from Google Cloud Storage for the highest slot less than the tx slot
+## 2. Download the [genesis.tar.bz2](https://api.mainnet-beta.solana.com/genesis.tar.bz2) archive for Solana Mainnet cluster
+
+An important part of the ledger replay process is the genesis archive. This archive contains the genesis configuration
+for Solana Mainnet cluster. It needs to be downloaded into the `/mnt/ledger` directory:
+
+```bash
+wget "https://api.mainnet-beta.solana.com/genesis.tar.bz2"
+```
+
+## 2. Download the snapshot from Google Cloud Storage for the highest slot less than the tx slot
+
+The snapshot archive contains the state of all Solana accounts at a specific slot, but also the bank state.
 
 I recommend downloading from the endpoint closest to your machine. In my case, I am downloading from Europe endpoint, so
 my download speed is the best.
@@ -66,7 +77,7 @@ is
 It is important to use the snapshot of the highest slot less than the tx slot, because ledger replay starts from the
 snapshot slot and it takes a long time, so the closer you are to the expected tx slot, the less replay work is needed.
 
-Let's download this snapshot in a `/mnt/ledger` directory (the download link is the public URL
+Let's download this snapshot in the `/mnt/ledger` directory (the download link is the public URL
 for [257197855](https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst)
 from the UI):
 
@@ -84,7 +95,9 @@ snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz 100%[========================
 2024-04-17 09:59:00 (157 MB/s) - ‘snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst’ saved [66997446556/66997446556]
 ```
 
-## 3. Download ledger archive from Google Cloud Storage for the highest slot less than the tx slot
+## 3. Download the ledger archive from Google Cloud Storage for the highest slot less than the tx slot
+
+The ledger archive contains the ledger data (transactions, blocks, slots, forks) for a specific range of slots.
 
 From the same [257034560](https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2/257034560)
 bucket, download
@@ -195,3 +208,41 @@ Ledger has data for 427359 slots 257034560 to 257472032
 
 should be identical to the content
 of [bounds.txt](https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/bounds.txt) file.
+
+## 7. Hook a simple Geyser plugin in the ledger replay process
+
+The `agave-ledger-tool` has a `--geyser-plugin-config` parameter that can be used to hook a Geyser plugin in the ledger
+replay process. For this example, we will use a very simple plugin that logs only the expected tx with signature
+[4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj).
+The plugin can be found
+at [imple-solana-geyser-plugin](https://github.com/andreisilviudragnea/simple-solana-geyser-plugin).
+
+```bash
+git clone https://github.com/andreisilviudragnea/simple-solana-geyser-plugin.git
+cd simple-solana-geyser-plugin
+cargo build --release
+vim config.json # Edit this file to contain the path to the compiled plugin shared library
+```
+
+In my case, it looks something like this:
+
+```json
+{
+  "libpath": "/root/simple-solana-geyser-plugin/target/release/libsimple_solana_geyser_plugin.so"
+}
+```
+
+## 8. Replay the ledger between the snapshot slot and the tx slot
+
+The ledger replay process will start from the snapshot slot [257197855](https://solscan.io/block/257197855), which
+contains all the account states at the specific slot. The ledger will be replayed until the tx
+slot [257207162](https://solscan.io/block/257207162).
+
+```bash
+cd /mnt
+~/solana/target/release/agave-ledger-tool verify \
+  --skip-verification \
+  --halt-at-slot 257207162 \
+  --geyser-plugin-config /root/simple-solana-geyser-plugin/config.json \
+  --log-messages-bytes-limit 1000000
+```
