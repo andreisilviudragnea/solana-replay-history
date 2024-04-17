@@ -1,6 +1,4 @@
-# solana-replay-history
-
-How to replay Solana mainnet txs from Google Cloud Storage snapshots and ledger archives?
+# How to replay Solana mainnet txs from Google Cloud Storage snapshots and ledger archives?
 
 As an example, let's use this Solana tx with truncated
 logs: [4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj).
