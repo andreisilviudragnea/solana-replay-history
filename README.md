@@ -119,11 +119,30 @@ tar --use-compress-program=unzstd -xvf rocksdb.tar.zst
 ```
 
 In my case, it took 37 minutes:
+
 ```bash
 real    37m4.438s
 user    15m5.566s
 sys     37m2.644s
 ```
 
-## 6. Compile ledger-tool with --log-messages-bytes-limit support
-`ledger-tool` does not support `--log-messages-bytes-limit` parameter. I created a branch with support for this parameter:
+## 6. Compile `agave-ledger-tool` with `--log-messages-bytes-limit` support
+
+`agave-ledger-tool` does not support the `--log-messages-bytes-limit` parameter. I created a
+branch [ledger-tool-log-messages-bytes-limit-v1.17](https://github.com/andreisilviudragnea/solana/tree/ledger-tool-log-messages-bytes-limit-v1.17)
+from [v1.17](https://github.com/anza-xyz/agave/tree/v1.17) with support for this parameter.
+
+```bash
+git clone https://github.com/andreisilviudragnea/solana.git
+cd solana/ledger-tool
+git checkout ledger-tool-log-messages-bytes-limit-v1.17
+cargo build --release
+cd ../target/release
+./agave-ledger-tool --version
+```
+
+Running the commands above should give an output something similar to:
+
+```bash
+agave-ledger-tool 1.17.32 (src:00000000; feat:3746964731, client:Agave)
+```
