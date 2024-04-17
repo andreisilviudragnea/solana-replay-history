@@ -92,7 +92,7 @@ the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/
 archive (the download link is the public URL
 for [rocksdb.tar.zst](https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) from UI).
 
-This can take a while (90 minutes for me), because
+This can take a while (94m 10s), because
 the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
 archive is huge (838.6 GB), so use a screen session if your connection is unstable:
 
