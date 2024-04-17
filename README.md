@@ -168,7 +168,7 @@ The above error can be fixed by running:
 ulimit -n 1000000
 ```
 
-Running `agave-ledger-tool bounds` again should give an output similar to:
+Running `./agave-ledger-tool bounds` again should give an output similar to:
 
 ```bash
 [2024-04-17T14:06:09.964041082Z INFO  agave_ledger_tool] agave-ledger-tool 1.17.32 (src:00000000; feat:3746964731, client:Agave)
