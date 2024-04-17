@@ -97,7 +97,17 @@ the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/
 archive is huge (838.6 GB), so use a screen session if your connection is unstable:
 
 ```bash
-TODO
+root@solana-test-01:/mnt/ledger# wget "https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst"
+--2024-04-17 09:54:38--  https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst
+Resolving storage.googleapis.com (storage.googleapis.com)... 142.251.39.123, 142.250.179.155, 142.251.36.59, ...
+Connecting to storage.googleapis.com (storage.googleapis.com)|142.251.39.123|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 900407911369 (839G) [application/octet-stream]
+Saving to: ‘rocksdb.tar.zst’
+
+rocksdb.tar.zst                                    100%[================================================================================================================>] 838.57G   154MB/s    in 94m 10s
+
+2024-04-17 11:28:48 (152 MB/s) - ‘rocksdb.tar.zst’ saved [900407911369/900407911369]
 ```
 
 ## 4. Extract the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) archive
