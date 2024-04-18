@@ -246,7 +246,8 @@ So the `/mnt/ledger` drive should have at least 3 TB capacity.
 
 `agave-ledger-tool` does not support the `--log-messages-bytes-limit` parameter. I created a
 branch [ledger-tool-log-messages-bytes-limit-v1.17](https://github.com/andreisilviudragnea/solana/tree/ledger-tool-log-messages-bytes-limit-v1.17)
-from [v1.17](https://github.com/anza-xyz/agave/tree/v1.17) with support for this parameter.
+from [v1.17](https://github.com/anza-xyz/agave/tree/v1.17) with support for this parameter. Future Agave client versions
+will support this parameter, as https://github.com/anza-xyz/agave/pull/854 has been merged.
 
 ```bash
 git clone https://github.com/andreisilviudragnea/solana.git
@@ -318,7 +319,7 @@ The `agave-ledger-tool` has a `--geyser-plugin-config` parameter that can be use
 replay process. For this example, we will use a very simple plugin that logs only the expected tx with signature
 [4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj).
 The plugin can be found
-at [imple-solana-geyser-plugin](https://github.com/andreisilviudragnea/simple-solana-geyser-plugin).
+at [simple-solana-geyser-plugin](https://github.com/andreisilviudragnea/simple-solana-geyser-plugin).
 
 ```bash
 git clone https://github.com/andreisilviudragnea/simple-solana-geyser-plugin.git
