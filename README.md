@@ -75,7 +75,14 @@ nvme2n1     259:5    0   3.5T  0 disk /mnt/ledger
 nvme3n1     259:6    0   3.5T  0 disk /mnt/accounts
 
 grep MemTotal /proc/meminfo
-MemTotal:       527754348 kB
+MemTotal:       527754348 kB # 527.754348 GB
+
+lsb_release -a
+No LSB modules are available.
+Distributor ID:	Ubuntu
+Description:	Ubuntu 22.04.4 LTS
+Release:	22.04
+Codename:	jammy
 ```
 
 </details>
