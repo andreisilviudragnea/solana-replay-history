@@ -137,7 +137,8 @@ wget "https://api.mainnet-beta.solana.com/genesis.tar.bz2"
 
 ## 2. Download the snapshot from Google Cloud Storage for the highest slot less than the tx slot
 
-The snapshot archive contains the state of all Solana accounts at a specific slot, but also the bank state.
+The snapshot archive contains the state of all Solana accounts at a specific slot, but also
+the [bank state](https://solana.com/docs/terminology#bank-state).
 
 I recommend downloading from the endpoint closest to your machine. In my case, I am downloading from Europe endpoint, so
 my download speed is the best.
@@ -180,7 +181,10 @@ snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz 100%[========================
 
 ## 3. Download the ledger archive from Google Cloud Storage for the highest slot less than the tx slot
 
-The ledger archive contains the ledger data (transactions, blocks, slots, forks) for a specific range of slots.
+The ledger archive contains the ledger data (transactions, blocks, slots, forks) for a specific range of slots. In
+Solana,
+the accounts state (stored in snapshot archive) is decoupled from the ledger (stored in ledger archive). A running
+validator needs all account states at a specific snapshot slot, but only a part of the ledger, for some recent slots.
 
 From the same [257034560](https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2/257034560)
 bucket, download
@@ -222,6 +226,15 @@ user    15m5.566s
 sys     37m2.644s
 ```
 
+And the size of the extracted directory is 1.8 TB:
+
+```bash
+du -sh /mnt/ledger/rocksdb
+1.8T	/mnt/ledger/rocksdb
+```
+
+So the `/mnt/ledger` drive should have at least 3 TB capacity.
+
 ## 6. Compile `agave-ledger-tool` with `--log-messages-bytes-limit` support
 
 `agave-ledger-tool` does not support the `--log-messages-bytes-limit` parameter. I created a
@@ -250,7 +263,7 @@ cd /mnt
 ~/solana/target/release/agave-ledger-tool bounds
 ```
 
-The command can fail with:
+The command may fail with:
 
 ```
 [2024-04-17T13:59:44.784150124Z INFO  agave_ledger_tool] agave-ledger-tool 1.17.32 (src:00000000; feat:3746964731, client:Agave)
