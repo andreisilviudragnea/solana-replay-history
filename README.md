@@ -99,8 +99,7 @@ These endpoints are taken
 from the [README](https://github.com/solana-labs/solana-bigtable/blob/master/README.md?plain=1#L124)
 of [solana-bigtable](https://github.com/solana-labs/solana-bigtable) repository.
 
-For our example, the slot
-of
+For our example, the slot of
 tx [4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj)
 is [257207162](https://solscan.io/block/257207162).
 
@@ -119,8 +118,7 @@ Ledger has data for 427359 slots 257034560 to 257472032
 ```
 
 This is ok in our case, because the tx slot [257207162](https://solscan.io/block/257207162) is in the range of ledger
-data
-(`257034560 < 257207162 < 257472032`).
+data (`257034560 < 257207162 < 257472032`).
 
 The bounds in this file refer to ledger data inside
 the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
@@ -144,9 +142,7 @@ I recommend downloading from the endpoint closest to your machine. In my case, I
 my download speed is the best.
 
 If you check the [257034560](https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2/257034560)
-bucket, you
-will see
-both a snapshot for
+bucket, you will see both a snapshot for
 slot [257034560](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/snapshot-257034560-3BEhaqKsp7r3cTwM8HH2wQZDGGRhiwvkQcGMGpsrTJFj.tar.zst)
 and a bucket
 called [hourly](https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2/257034560/hourly)
@@ -803,3 +799,8 @@ The total time for this process is about 210 minutes (3 hours and 30 minutes):
 - 94 minutes for downloading the ledger archive
 - 37 minutes for extracting the ledger archive
 - 79 minutes for replaying around 9308 slots
+
+The snapshot
+archive [mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst;tab=live_object)
+has a size of 63 GB. When extracted, the size of the content is 228 GB, so the state of all Solana accounts at a
+specific slot is 228 GB at the moment.
