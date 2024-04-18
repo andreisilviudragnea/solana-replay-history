@@ -210,6 +210,12 @@ rocksdb.tar.zst                                    100%[========================
 2024-04-17 11:28:48 (152 MB/s) - ‘rocksdb.tar.zst’ saved [900407911369/900407911369]
 ```
 
+The
+downloaded [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
+archive contains slots from roughly
+[Mar 28, 2024 at 21:39:50 UTC](https://explorer.solana.com/block/257034560)
+until [Mar 31, 2024 at 03:59:19 UTC](https://explorer.solana.com/block/257472031).
+
 ## 4. Extract the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) archive
 
 This can also take a while, so use a screen session for this command too:
