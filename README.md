@@ -4,6 +4,82 @@ As an example, let's use this Solana tx with truncated
 logs: [4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj).
 It contains a log line "Log truncated".
 
+For this tutorial, a powerful Ubuntu machine is needed. I used a machine with the following specs:
+
+<details>
+<summary>Ubuntu machine specs</summary>
+
+```bash
+lscpu
+Architecture:            x86_64
+  CPU op-mode(s):        32-bit, 64-bit
+  Address sizes:         46 bits physical, 57 bits virtual
+  Byte Order:            Little Endian
+CPU(s):                  64
+  On-line CPU(s) list:   0-63
+Vendor ID:               GenuineIntel
+  Model name:            Intel(R) Xeon(R) Gold 6314U CPU @ 2.30GHz
+    CPU family:          6
+    Model:               106
+    Thread(s) per core:  2
+    Core(s) per socket:  32
+    Socket(s):           1
+    Stepping:            6
+    CPU max MHz:         3400.0000
+    CPU min MHz:         800.0000
+    BogoMIPS:            4600.00
+    Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs
+                         bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt ts
+                         c_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 invpcid_single ssbd mba ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi flexpriority ept vpid
+                         ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xs
+                         avec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local split_lock_detect wbnoinvd dtherm ida arat pln pts avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx
+                         512_vnni avx512_bitalg tme avx512_vpopcntdq la57 rdpid fsrm md_clear pconfig flush_l1d arch_capabilities
+Virtualization features:
+  Virtualization:        VT-x
+Caches (sum of all):
+  L1d:                   1.5 MiB (32 instances)
+  L1i:                   1 MiB (32 instances)
+  L2:                    40 MiB (32 instances)
+  L3:                    48 MiB (1 instance)
+NUMA:
+  NUMA node(s):          1
+  NUMA node0 CPU(s):     0-63
+Vulnerabilities:
+  Gather data sampling:  Mitigation; Microcode
+  Itlb multihit:         Not affected
+  L1tf:                  Not affected
+  Mds:                   Not affected
+  Meltdown:              Not affected
+  Mmio stale data:       Mitigation; Clear CPU buffers; SMT vulnerable
+  Retbleed:              Not affected
+  Spec rstack overflow:  Not affected
+  Spec store bypass:     Mitigation; Speculative Store Bypass disabled via prctl and seccomp
+  Spectre v1:            Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+  Spectre v2:            Mitigation; Enhanced IBRS, IBPB conditional, RSB filling, PBRSB-eIBRS SW sequence
+  Srbds:                 Not affected
+  Tsx async abort:       Not affected
+
+lsblk
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+loop0         7:0    0  63.9M  1 loop /snap/core20/2182
+loop1         7:1    0    87M  1 loop /snap/lxd/27948
+loop2         7:2    0  39.1M  1 loop /snap/snapd/21184
+loop3         7:3    0  63.9M  1 loop /snap/core20/2264
+loop4         7:4    0  38.7M  1 loop /snap/snapd/21465
+nvme0n1     259:0    0 238.5G  0 disk
+├─nvme0n1p1 259:1    0   512M  0 part /boot/efi
+├─nvme0n1p2 259:2    0   1.9G  0 part [SWAP]
+└─nvme0n1p3 259:3    0 236.1G  0 part /
+nvme1n1     259:4    0 238.5G  0 disk
+nvme2n1     259:5    0   3.5T  0 disk /mnt/ledger
+nvme3n1     259:6    0   3.5T  0 disk /mnt/accounts
+
+grep MemTotal /proc/meminfo
+MemTotal:       527754348 kB
+```
+
+</details>
+
 ## 1. Find in Google Cloud Storage the highest slot less than the tx slot
 
 The Google Cloud Storage endpoints are:
@@ -261,7 +337,7 @@ The meaning of all the parameters:
 
 The `notify_transaction` log statement contains the expected tx
 signature [4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj).
-Also, the logs are not truncated anymore.
+Also, the logs are not truncated anymore:
 
 ```bash
 [2024-04-17T23:49:27.161026560Z INFO  simple_solana_geyser_plugin] notify_transaction(slot=257207162, transaction=ReplicaTransactionInfoV2 {
@@ -693,3 +769,9 @@ slots:
 [2024-04-17T23:49:28.292699419Z INFO  solana_core::accounts_hash_verifier] AccountsHashVerifier has stopped
 [2024-04-17T23:49:29.663924996Z INFO  agave_ledger_tool] ledger tool took 5265.6s
 ```
+
+The total time for this process is about 210 minutes (3 hours and 30 minutes):
+
+- 94 minutes for downloading the ledger archive
+- 37 minutes for extracting the ledger archive
+- 79 minutes for replaying around 9308 slots
