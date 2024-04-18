@@ -214,7 +214,8 @@ The
 downloaded [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
 archive contains slots from roughly
 [Mar 28, 2024 at 21:39:50 UTC](https://explorer.solana.com/block/257034560)
-until [Mar 31, 2024 at 03:59:19 UTC](https://explorer.solana.com/block/257472031).
+until [Mar 31, 2024 at 03:59:19 UTC](https://explorer.solana.com/block/257472031), so for about 2 days, 6 hours, 19
+minutes, and 29 seconds.
 
 ## 4. Extract the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) archive
 
