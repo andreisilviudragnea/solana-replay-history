@@ -806,6 +806,7 @@ has a size of 63 GB. When extracted, the size of the content is 228 GB, so the s
 specific slot is 228 GB at the moment.
 
 The output of `agave-ledger-tool genesis` command:
+
 ```bash
 root@solana-test-01:/mnt# RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool genesis
 [2024-04-19T11:29:08.831326873Z INFO  agave_ledger_tool] agave-ledger-tool 1.17.32 (src:00000000; feat:3746964731, client:Agave)
@@ -844,18 +845,51 @@ Native instruction processors: [
 Rewards pool: {}
 ```
 
-Solana mainnet time units:
+Solana mainnet time units and concepts:
+
 - Hashes per tick: Some(12_500)
 - Target tick duration: 6.25 ms =>
-- Ticks per slot: 64            => Slot duration: 6.25 ms * 64 = 400 ms
-- Slots per epoch: 432_000      => Epoch duration: 400 ms * 432_000 = 172_800_000 ms = 2 days
+- Ticks per slot: 64 => Slot duration: 6.25 ms * 64 = 400 ms
+- Slots per epoch: 432_000 => Epoch duration: 400 ms * 432_000 = 172_800_000 ms = 2 days
 
-At the beginning of each epoch, a leader schedule is decided. It maps each validator pubkey to a slot. During each slot,
-the leader can produce a block. The leader schedule is deterministic and can be calculated by any node.
+At the beginning of each epoch, a leader schedule is decided. The leader schedule is deterministic and can be calculated
+by any node. It maps each validator pubkey to a slot. During each slot, the leader can produce at most one block, so
+there can be slots when no block is produced.
+
+A block contains multiple entries. An entry can contain multiple txs or no tx if the network is just ticking when there
+are not enough txs to fill all entries in a block, like on a development node.
+
+A shred is a fraction of a block; the smallest unit sent between validators during gossip.
+
+Output of `agave-ledger-tool print --num-slots 5` command:
+
+```bash
+root@solana-test-01:/mnt# RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool print --num-slots 5
+[2024-04-19T11:45:44.908725278Z INFO  agave_ledger_tool] agave-ledger-tool 1.17.32 (src:00000000; feat:3746964731, client:Agave)
+[2024-04-19T11:45:44.908849513Z INFO  solana_ledger::blockstore] Maximum open file descriptors: 1000000
+[2024-04-19T11:45:44.908855952Z INFO  solana_ledger::blockstore] Opening database at "/mnt/ledger/rocksdb"
+[2024-04-19T11:45:44.917354636Z INFO  solana_ledger::blockstore_db] Opening Rocks with secondary (read only) access at: "/mnt/ledger/rocksdb/solana-secondary"
+[2024-04-19T11:45:44.917371629Z INFO  solana_ledger::blockstore_db] This secondary access could temporarily degrade other accesses, such as by agave-validator
+[2024-04-19T11:45:51.624076412Z INFO  solana_ledger::blockstore_db] Rocks's automatic compactions are disabled due to Secondary access
+[2024-04-19T11:45:51.624189187Z INFO  solana_ledger::blockstore] "/mnt/ledger/rocksdb" open took 6.7s
+Slot 257034560 root?: true
+  num_shreds: 0, parent_slot: None, next_slots: [257034561], num_entries: 0, is_full: false
+Slot 257034561 root?: true
+  num_shreds: 699, parent_slot: Some(257034560), next_slots: [257034562], num_entries: 232, is_full: true
+Slot 257034562 root?: true
+  num_shreds: 608, parent_slot: Some(257034561), next_slots: [257034563], num_entries: 196, is_full: true
+Slot 257034563 root?: true
+  num_shreds: 507, parent_slot: Some(257034562), next_slots: [257034564], num_entries: 314, is_full: true
+Slot 257034564 root?: true
+  num_shreds: 665, parent_slot: Some(257034563), next_slots: [257034565], num_entries: 164, is_full: true
+Summary of Programs:
+[2024-04-19T11:45:51.893169639Z INFO  agave_ledger_tool] ledger tool took 7.0s
+```
 
 Solana storage:
+
 - Google Big Table (uploaded by the validator itself using parameter --enable-bigtable-ledger-upload):
-  - ledger data (rooted slots, blocks, txs) - this is what Triton wants to provide as distributed data
+    - ledger data (rooted slots, blocks, txs) - this is what Triton wants to provide as distributed data
 - Google Cloud Storage (uploaded using scripts from solana-bigtable repository):
-  - accounts snapshots
-  - ledger archives (txs, blocks, slots, forks)
+    - accounts snapshots
+    - ledger archives (txs, blocks, slots, forks)
