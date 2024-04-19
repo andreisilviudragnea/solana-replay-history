@@ -804,3 +804,42 @@ The snapshot
 archive [mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst;tab=live_object)
 has a size of 63 GB. When extracted, the size of the content is 228 GB, so the state of all Solana accounts at a
 specific slot is 228 GB at the moment.
+
+The output of `agave-ledger-tool genesis` command:
+```bash
+root@solana-test-01:/mnt# RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool genesis
+[2024-04-19T11:29:08.831326873Z INFO  agave_ledger_tool] agave-ledger-tool 1.17.32 (src:00000000; feat:3746964731, client:Agave)
+Creation time: 2020-03-16T14:29:00+00:00
+Cluster type: MainnetBeta
+Genesis hash: 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d
+Shred version: 54208
+Ticks per slot: 64
+Hashes per tick: Some(12500)
+Target tick duration: 6.25ms
+Slots per epoch: 432000
+Warmup epochs: disabled
+Slots per year: 78892314.984
+Inflation { initial: 0.0, terminal: 0.0, taper: 0.0, foundation: 0.0, foundation_term: 0.0, __unused: 0.0 }
+Rent { lamports_per_byte_year: 3480, exemption_threshold: 2.0, burn_percent: 100 }
+FeeRateGovernor { lamports_per_signature: 0, target_lamports_per_signature: 10000, target_signatures_per_slot: 20000, min_lamports_per_signature: 5000, max_lamports_per_signature: 100000, burn_percent: 100 }
+Capitalization: 500000000 SOL in 431 accounts
+Native instruction processors: [
+    (
+        "solana_config_program",
+        Config1111111111111111111111111111111111111,
+    ),
+    (
+        "solana_stake_program",
+        Stake11111111111111111111111111111111111111,
+    ),
+    (
+        "solana_system_program",
+        11111111111111111111111111111111,
+    ),
+    (
+        "solana_vote_program",
+        Vote111111111111111111111111111111111111111,
+    ),
+]
+Rewards pool: {}
+```
