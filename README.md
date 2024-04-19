@@ -843,3 +843,19 @@ Native instruction processors: [
 ]
 Rewards pool: {}
 ```
+
+Solana mainnet time units:
+- Hashes per tick: Some(12_500)
+- Target tick duration: 6.25 ms =>
+- Ticks per slot: 64            => Slot duration: 6.25 ms * 64 = 400 ms
+- Slots per epoch: 432_000      => Epoch duration: 400 ms * 432_000 = 172_800_000 ms = 2 days
+
+At the beginning of each epoch, a leader schedule is decided. It maps each validator pubkey to a slot. During each slot,
+the leader can produce a block. The leader schedule is deterministic and can be calculated by any node.
+
+Solana storage:
+- Google Big Table (uploaded by the validator itself using parameter --enable-bigtable-ledger-upload):
+  - ledger data (rooted slots, blocks, txs) - this is what Triton wants to provide as distributed data
+- Google Cloud Storage (uploaded using scripts from solana-bigtable repository):
+  - accounts snapshots
+  - ledger archives (txs, blocks, slots, forks)
