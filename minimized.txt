@@ -156,3 +156,12 @@ Creating a version 1.2.0 minimized snapshot of slot 257197859
 Successfully created snapshot for slot 257197859, hash B4ZJaFRu1hhwN1iKhUYW5QquTC4Ct5ZYhNczNXpQ1Yig: /mnt/ledger/snapshot-257197859-7mBQidpLd6EVDZFP9wp4Ug2gGAyoCvy4TuLCwXrjBVp.tar.zst
 Shred version: 50093
 [2024-04-20T12:10:39.322894444Z INFO  agave_ledger_tool] ledger tool took 1379.8s
+
+Downloading `rocksdb.tar.zst` can be faster (12m 12.65s) when using [sliced object downloads](https://cloud.google.com/storage/docs/sliced-object-downloads#command-line):
+```bash
+gcloud storage cp gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst .
+Copying gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst to file://./rocksdb.tar.zst
+  Completed files 1/1 | 791.1GiB/791.1GiB | 94.4MiB/s
+
+Average throughput: 1.1GiB/s
+```
