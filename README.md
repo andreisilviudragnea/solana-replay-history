@@ -903,7 +903,7 @@ Copying gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst to file://
 Average throughput: 1.1GiB/s
 ```
 
-Extracting `rocksdb.tar.zst` can be faster (23m 12.289s) when using `pzstd`:
+Extracting `rocksdb.tar.zst` takes (23m 12.289s) when using `pzstd`:
 ```bash
 root@solana-test-01:/mnt/accounts# time nice -n -20 pzstd -d rocksdb.tar.zst -o rocksdb.tar -p 64
 rocksdb.tar.zst     : 1813084170240 bytes
@@ -911,4 +911,11 @@ rocksdb.tar.zst     : 1813084170240 bytes
 real    23m12.289s
 user    18m25.536s
 sys     29m18.165s
+```
+
+The `time tar -xvf rocksdb.tar` command takes:
+```bash
+real    19m0.846s
+user    0m19.369s
+sys     14m37.861s
 ```
