@@ -893,3 +893,22 @@ Solana storage:
 - Google Cloud Storage (uploaded using scripts from solana-bigtable repository):
     - accounts snapshots
     - ledger archives (txs, blocks, slots, forks)
+
+Downloading `rocksdb.tar.zst` can be faster (12m 12.65s) when using [sliced object downloads](https://cloud.google.com/storage/docs/sliced-object-downloads#command-line):
+```bash
+gcloud storage cp gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst .
+Copying gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst to file://./rocksdb.tar.zst
+  Completed files 1/1 | 791.1GiB/791.1GiB | 94.4MiB/s
+
+Average throughput: 1.1GiB/s
+```
+
+Extracting `rocksdb.tar.zst` can be faster (23m 12.289s) when using `pzstd`:
+```bash
+root@solana-test-01:/mnt/accounts# time nice -n -20 pzstd -d rocksdb.tar.zst -o rocksdb.tar -p 64
+rocksdb.tar.zst     : 1813084170240 bytes
+
+real    23m12.289s
+user    18m25.536s
+sys     29m18.165s
+```
