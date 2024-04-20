@@ -922,5 +922,7 @@ sys     14m37.861s
 
 The command `time nice -n -20 tar --use-compress-program=unzstd -xvf rocksdb.tar.zst` takes:
 ```bash
-todo
+real    34m23.924s
+user    14m21.847s
+sys     34m6.154s
 ```
