@@ -191,6 +191,11 @@ user    2m15.682s
 sys     4m55.276s
 ```
 
+The output of `du -sh snapshot-untarred` is:
+```bash
+242G    snapshot-untarred
+```
+
 You can also use `gcloud` utility to download files faster (`1m 20.88s`):
 ```bash
 gcloud storage cp gs://mainnet-beta-ledger-europe-fr2/260918655/hourly/snapshot-261351068-GGqVAFxLKYN3uqgvfpknrrwZwxV24JvK8udsDSqjnQWL.tar.zst .
