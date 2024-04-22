@@ -3,10 +3,11 @@
 ## Solana storage
 
 - Google Big Table (uploaded by the validator itself using parameter `--enable-bigtable-ledger-upload`):
-  - ledger data (rooted slots, blocks, txs) - this is what Triton wants to provide as distributed data
-- Google Cloud Storage (uploaded using scripts from [solana-bigtable](https://github.com/solana-labs/solana-bigtable) repository):
-  - accounts snapshots
-  - ledger archives (txs, blocks, slots, forks)
+    - ledger data (rooted slots, blocks, txs) - this is what Triton wants to provide as distributed data
+- Google Cloud Storage (uploaded using scripts from [solana-bigtable](https://github.com/solana-labs/solana-bigtable)
+  repository):
+    - accounts snapshots
+    - ledger archives (txs, blocks, slots, forks)
 
 As an example, let's use this Solana tx with truncated
 logs: [4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj).
@@ -132,7 +133,7 @@ The bounds in this file refer to ledger data inside
 the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
 archive.
 
-## 2. Download the [genesis.tar.bz2](https://api.mainnet-beta.solana.com/genesis.tar.bz2) archive for Solana Mainnet cluster
+## 2. Download the [genesis.tar.bz2](https://api.mainnet-beta.solana.com/genesis.tar.bz2) (20 KB) archive for Solana Mainnet cluster
 
 An important part of the ledger replay process is the genesis archive. This archive contains the genesis configuration
 for Solana Mainnet cluster. It needs to be downloaded into the `/mnt/ledger` directory:
@@ -222,7 +223,8 @@ file, roughly [Mar 28, 2024 at 21:39:50 UTC](https://explorer.solana.com/block/2
 until [Mar 31, 2024 at 03:59:19 UTC](https://explorer.solana.com/block/257472031), so for about 2 days, 6 hours, 19
 minutes, and 29 seconds.
 
-Downloading [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) can be faster (`12m 12.65s`) when
+Downloading [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
+can be faster (`12m 12.65s`) when
 using [sliced object downloads](https://cloud.google.com/storage/docs/sliced-object-downloads#command-line):
 
 ```bash
