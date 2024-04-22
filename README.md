@@ -184,6 +184,15 @@ snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz 100%[========================
 2024-04-17 09:59:00 (157 MB/s) - ‘snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst’ saved [66997446556/66997446556]
 ```
 
+You can also use `gcloud` utility to download files faster (`1m 20.88s`):
+```bash
+gcloud storage cp gs://mainnet-beta-ledger-europe-fr2/260918655/hourly/snapshot-261351068-GGqVAFxLKYN3uqgvfpknrrwZwxV24JvK8udsDSqjnQWL.tar.zst .
+Copying gs://mainnet-beta-ledger-europe-fr2/260918655/hourly/snapshot-261351068-GGqVAFxLKYN3uqgvfpknrrwZwxV24JvK8udsDSqjnQWL.tar.zst to file://./snapshot-261351068-GGqVAFxLKYN3uqgvfpknrrwZwxV24JvK8udsDSqjnQWL.tar.zst
+  Completed files 1/1 | 65.8GiB/65.8GiB | 516.4MiB/s
+
+Average throughput: 849.9MiB/s
+```
+
 ## 3. Download the ledger archive from Google Cloud Storage for the highest slot less than the tx slot
 
 The ledger archive contains the ledger data (transactions, blocks, slots, forks) for a specific range of slots. In
