@@ -1,5 +1,13 @@
 # How to replay Solana mainnet txs from Google Cloud Storage snapshots and ledger archives?
 
+## Solana storage
+
+- Google Big Table (uploaded by the validator itself using parameter `--enable-bigtable-ledger-upload`):
+  - ledger data (rooted slots, blocks, txs) - this is what Triton wants to provide as distributed data
+- Google Cloud Storage (uploaded using scripts from [solana-bigtable](https://github.com/solana-labs/solana-bigtable) repository):
+  - accounts snapshots
+  - ledger archives (txs, blocks, slots, forks)
+
 As an example, let's use this Solana tx with truncated
 logs: [4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj).
 It contains a log line "Log truncated".
@@ -188,9 +196,9 @@ the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/
 archive (the download link is the public URL
 for [rocksdb.tar.zst](https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) from UI).
 
-This can take a while (94m 10s), because
+This can take a while (`94m 10s`), because
 the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
-archive is huge (838.6 GB), so use a screen session if your connection is unstable:
+archive is huge (`838.6 GB`), so use a screen session if your connection is unstable:
 
 ```bash
 root@solana-test-01:/mnt/ledger# wget "https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst"
@@ -208,10 +216,22 @@ rocksdb.tar.zst                                    100%[========================
 
 The
 downloaded [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
-archive contains slots from roughly
-[Mar 28, 2024 at 21:39:50 UTC](https://explorer.solana.com/block/257034560)
+archive contains slots for the epoch specified
+in [epoch.txt](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/epoch.txt;tab=live_object)
+file, roughly [Mar 28, 2024 at 21:39:50 UTC](https://explorer.solana.com/block/257034560)
 until [Mar 31, 2024 at 03:59:19 UTC](https://explorer.solana.com/block/257472031), so for about 2 days, 6 hours, 19
 minutes, and 29 seconds.
+
+Downloading [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) can be faster (`12m 12.65s`) when
+using [sliced object downloads](https://cloud.google.com/storage/docs/sliced-object-downloads#command-line):
+
+```bash
+gcloud storage cp gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst .
+Copying gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst to file://./rocksdb.tar.zst
+  Completed files 1/1 | 791.1GiB/791.1GiB | 94.4MiB/s
+
+Average throughput: 1.1GiB/s
+```
 
 ## 4. Extract the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) archive
 
@@ -237,6 +257,33 @@ du -sh /mnt/ledger/rocksdb
 ```
 
 So the `/mnt/ledger` drive should have at least 3 TB capacity.
+
+Extracting `rocksdb.tar.zst` takes (`23m 12.289s`) when using `pzstd`:
+
+```bash
+root@solana-test-01:/mnt/accounts# time nice -n -20 pzstd -d rocksdb.tar.zst -o rocksdb.tar -p 64
+rocksdb.tar.zst     : 1813084170240 bytes
+
+real    23m12.289s
+user    18m25.536s
+sys     29m18.165s
+```
+
+The `time tar -xvf rocksdb.tar` command takes:
+
+```bash
+real    19m0.846s
+user    0m19.369s
+sys     14m37.861s
+```
+
+The `time nice -n -20 tar --use-compress-program=unzstd -xvf rocksdb.tar.zst` command takes:
+
+```bash
+real    34m23.924s
+user    14m21.847s
+sys     34m6.154s
+```
 
 ## 6. Compile `agave-ledger-tool` with `--log-messages-bytes-limit` support
 
@@ -884,45 +931,4 @@ Slot 257034564 root?: true
   num_shreds: 665, parent_slot: Some(257034563), next_slots: [257034565], num_entries: 164, is_full: true
 Summary of Programs:
 [2024-04-19T11:45:51.893169639Z INFO  agave_ledger_tool] ledger tool took 7.0s
-```
-
-Solana storage:
-
-- Google Big Table (uploaded by the validator itself using parameter --enable-bigtable-ledger-upload):
-    - ledger data (rooted slots, blocks, txs) - this is what Triton wants to provide as distributed data
-- Google Cloud Storage (uploaded using scripts from solana-bigtable repository):
-    - accounts snapshots
-    - ledger archives (txs, blocks, slots, forks)
-
-Downloading `rocksdb.tar.zst` can be faster (12m 12.65s) when using [sliced object downloads](https://cloud.google.com/storage/docs/sliced-object-downloads#command-line):
-```bash
-gcloud storage cp gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst .
-Copying gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst to file://./rocksdb.tar.zst
-  Completed files 1/1 | 791.1GiB/791.1GiB | 94.4MiB/s
-
-Average throughput: 1.1GiB/s
-```
-
-Extracting `rocksdb.tar.zst` takes (23m 12.289s) when using `pzstd`:
-```bash
-root@solana-test-01:/mnt/accounts# time nice -n -20 pzstd -d rocksdb.tar.zst -o rocksdb.tar -p 64
-rocksdb.tar.zst     : 1813084170240 bytes
-
-real    23m12.289s
-user    18m25.536s
-sys     29m18.165s
-```
-
-The `time tar -xvf rocksdb.tar` command takes:
-```bash
-real    19m0.846s
-user    0m19.369s
-sys     14m37.861s
-```
-
-The command `time nice -n -20 tar --use-compress-program=unzstd -xvf rocksdb.tar.zst` takes:
-```bash
-real    34m23.924s
-user    14m21.847s
-sys     34m6.154s
 ```
