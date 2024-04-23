@@ -184,7 +184,9 @@ snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz 100%[========================
 2024-04-17 09:59:00 (157 MB/s) - ‘snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst’ saved [66997446556/66997446556]
 ```
 
-The `time tar --use-compress-program=unzstd -xvf ../snapshot-261351068-GGqVAFxLKYN3uqgvfpknrrwZwxV24JvK8udsDSqjnQWL.tar.zst` command took:
+The `time tar --use-compress-program=unzstd -xvf ../snapshot-261351068-GGqVAFxLKYN3uqgvfpknrrwZwxV24JvK8udsDSqjnQWL.tar.zst`
+command took:
+
 ```bash
 real    4m54.546s
 user    2m15.682s
@@ -192,11 +194,13 @@ sys     4m55.276s
 ```
 
 The output of `du -sh snapshot-untarred` is:
+
 ```bash
 242G    snapshot-untarred
 ```
 
 You can also use `gcloud` utility to download files faster (`1m 20.88s`):
+
 ```bash
 gcloud storage cp gs://mainnet-beta-ledger-europe-fr2/260918655/hourly/snapshot-261351068-GGqVAFxLKYN3uqgvfpknrrwZwxV24JvK8udsDSqjnQWL.tar.zst .
 Copying gs://mainnet-beta-ledger-europe-fr2/260918655/hourly/snapshot-261351068-GGqVAFxLKYN3uqgvfpknrrwZwxV24JvK8udsDSqjnQWL.tar.zst to file://./snapshot-261351068-GGqVAFxLKYN3uqgvfpknrrwZwxV24JvK8udsDSqjnQWL.tar.zst
@@ -959,7 +963,9 @@ Summary of Programs:
 Validator startup: ProcessingLedger { slot: 257034574, max_slot: 257472032 }...
 Validator startup: ProcessingLedger { slot: 257040631, max_slot: 257472032 }...
 
-This worked once:
+This work only with `"commitment": "confirmed"` and for a short time after slot shows up
+in `Validator startup: ProcessingLedger { slot: 257040631, max_slot: 257472032 }...`. Still need to investigate why:
+
 ```bash
 curl --location 'http://127.0.0.1:8899' \
 --header 'Content-Type: application/json' \
