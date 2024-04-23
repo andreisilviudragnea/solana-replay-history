@@ -958,3 +958,18 @@ Summary of Programs:
 
 Validator startup: ProcessingLedger { slot: 257034574, max_slot: 257472032 }...
 Validator startup: ProcessingLedger { slot: 257040631, max_slot: 257472032 }...
+
+This worked once:
+```bash
+curl --location 'http://127.0.0.1:8899' \
+--header 'Content-Type: application/json' \
+--data '{
+    "jsonrpc": "2.0",
+    "method": "getBlock",
+    "params": [
+        257040601,
+        {"commitment": "confirmed", "maxSupportedTransactionVersion": 0}
+    ],
+    "id": 1
+}'
+```
