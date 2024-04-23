@@ -1,0 +1,52 @@
+[Unit]
+Description=Solana Neon Geyser Validator
+After=network.target
+Wants=solana-sys-tuner.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+LimitNOFILE=1000000
+LogRateLimitIntervalSec=0
+Environment="PATH=/opt/solana/solana-release/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+Environment="RUST_LOG=solana=info,solana_runtime::message_processor=info,librdkafka=trace,rdkafka::client=trace"
+#Environment="RUST_LOG=solana=trace,solana_runtime::message_processor=trace,librdkafka=trace,rdkafka::client=trace"
+Environment="RUST_LOG=info,solana_metrics=off,rpc=debug"
+Environment="RUST_BACKTRACE=full"
+ExecStart=/opt/solana/solana-release/bin/solana-validator \
+  --identity /root/validator-keypair.json \
+  --no-voting \
+#  --trusted-validator 7Np41oeYqPefeNQEHSv1UDhYrehxin3NStELsSKCT4K2 \
+#  --trusted-validator GdnSyH3YtwcxFvQrVVJMm1JhTS4QVX7MFsX56uJLUfiZ \
+#  --trusted-validator DE1bawNcRJB9rVm3buyMVfr8mBEoyyu73NBovf2oXJsJ \
+#  --trusted-validator CakcnaRDHka2gXyfbEd2d3xsvkJkqsLw2akB3zsN1D2S \
+#  --no-untrusted-rpc \
+  --rpc-port 8899 \
+  --gossip-host 147.75.82.47 \
+  --gossip-port 8001 \
+#  --entrypoint entrypoint.mainnet-beta.solana.com:8001 \
+#  --entrypoint entrypoint2.mainnet-beta.solana.com:8001 \
+#  --entrypoint entrypoint3.mainnet-beta.solana.com:8001 \
+#  --entrypoint entrypoint4.mainnet-beta.solana.com:8001 \
+#  --entrypoint entrypoint5.mainnet-beta.solana.com:8001 \
+  --expected-genesis-hash 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d \
+  --wal-recovery-mode skip_any_corrupted_record \
+#  --limit-ledger-size \
+  --ledger /mnt/ledger \
+  --accounts /mnt/accounts \
+  --enable-rpc-transaction-history \
+  --enable-cpi-and-log-storage \
+  --private-rpc \
+  --full-rpc-api \
+  --accounts-db-caching-enabled \
+  --maximum-local-snapshot-age 100000000 \
+  --no-snapshot-fetch \
+  --skip-startup-ledger-verification \
+  --log -
+
+[Install]
+WantedBy=multi-user.target
+
