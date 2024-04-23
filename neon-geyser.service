@@ -14,7 +14,7 @@ LogRateLimitIntervalSec=0
 Environment="PATH=/opt/solana/solana-release/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
 Environment="RUST_LOG=solana=info,solana_runtime::message_processor=info,librdkafka=trace,rdkafka::client=trace"
 #Environment="RUST_LOG=solana=trace,solana_runtime::message_processor=trace,librdkafka=trace,rdkafka::client=trace"
-Environment="RUST_LOG=info,solana_metrics=off,rpc=debug"
+Environment="RUST_LOG=info,solana_metrics=off,solana_rpc=debug"
 Environment="RUST_BACKTRACE=full"
 ExecStart=/opt/solana/solana-release/bin/solana-validator \
   --identity /root/validator-keypair.json \
