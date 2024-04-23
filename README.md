@@ -955,3 +955,6 @@ Slot 257034564 root?: true
 Summary of Programs:
 [2024-04-19T11:45:51.893169639Z INFO  agave_ledger_tool] ledger tool took 7.0s
 ```
+
+Validator startup: ProcessingLedger { slot: 257034574, max_slot: 257472032 }...
+Validator startup: ProcessingLedger { slot: 257040631, max_slot: 257472032 }...
