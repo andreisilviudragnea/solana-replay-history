@@ -963,8 +963,9 @@ Summary of Programs:
 Validator startup: ProcessingLedger { slot: 257034574, max_slot: 257472032 }...
 Validator startup: ProcessingLedger { slot: 257040631, max_slot: 257472032 }...
 
-This work only with `"commitment": "confirmed"` and for a short time after slot shows up
-in `Validator startup: ProcessingLedger { slot: 257040631, max_slot: 257472032 }...`. Still need to investigate why:
+This work only with `"commitment": "confirmed"` (finalized not returning anything, processed not supported by RPC
+endpoint) and for a short time after slot shows up in `Validator startup: ProcessingLedger { slot: 257040631, max_slot: 257472032 }...`. 
+Still need to investigate why:
 
 ```bash
 curl --location 'http://127.0.0.1:8899' \
