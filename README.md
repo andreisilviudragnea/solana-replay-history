@@ -982,3 +982,17 @@ curl --location 'http://127.0.0.1:8899' \
 ```
 
 Looks like it is output for 300 slots after the slot is queried.
+
+```bash
+curl --location 'http://127.0.0.1:8899' \
+--header 'Content-Type: application/json' \
+--data '{
+    "jsonrpc": "2.0",
+    "method": "getBlock",
+    "params": [
+        257044143,
+        {"commitment": "confirmed", "maxSupportedTransactionVersion": 0}
+    ],
+    "id": 1
+}' > out.txt
+```
