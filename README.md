@@ -960,28 +960,15 @@ Summary of Programs:
 [2024-04-19T11:45:51.893169639Z INFO  agave_ledger_tool] ledger tool took 7.0s
 ```
 
+The validator can be started up with config from `neon-geyser.service`, but the startup snapshot needs to be exactly the 
+first slot of the ledger archive (`rocksdb.tar.zst`), otherwise the validator will end up in an inconsistent state:
+
 Validator startup: ProcessingLedger { slot: 257034574, max_slot: 257472032 }...
 Validator startup: ProcessingLedger { slot: 257040631, max_slot: 257472032 }...
 
-This work only with `"commitment": "confirmed"` (finalized not returning anything, processed not supported by RPC
-endpoint) and for a short time after slot shows up in `Validator startup: ProcessingLedger { slot: 257040631, max_slot: 257472032 }...`. 
+This works only with `"commitment": "confirmed"` (`finalized` not returning anything, `processed` not supported by RPC
+endpoint) and for a short time (about 300 slots after slot shows up in `Validator startup: ProcessingLedger { slot: 257040631, max_slot: 257472032 }...`). 
 Still need to investigate why:
-
-```bash
-curl --location 'http://127.0.0.1:8899' \
---header 'Content-Type: application/json' \
---data '{
-    "jsonrpc": "2.0",
-    "method": "getBlock",
-    "params": [
-        257040601,
-        {"commitment": "confirmed", "maxSupportedTransactionVersion": 0}
-    ],
-    "id": 1
-}'
-```
-
-Looks like it is output for 300 slots after the slot is queried.
 
 ```bash
 curl --location 'http://127.0.0.1:8899' \
