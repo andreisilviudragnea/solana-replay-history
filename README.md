@@ -1100,3 +1100,16 @@ Apr 25 16:00:58 solana-test-01 solana-validator[724756]: [2024-04-25T16:00:58.06
 ...
 Apr 23 13:40:29 solana-test-01 solana-validator[477991]: [2024-04-23T13:40:29.942206842Z ERROR solana_metrics::metrics] datapoint: replay-stage-mark_dead_slot error="error: FailedToLoadEntries(DeadSlot)" slot=257197958i
 ```
+
+```bash 
+~/solana/target/release/agave-ledger-tool purge --dead-slots-only 257197958
+```
+
+```
+[2024-04-25T16:20:02.311457692Z INFO  solana_ledger::blockstore::blockstore_purge] purge_from_next_slots: meta for slot 257471945 no longer refers to slots 257471946..=257471946
+[2024-04-25T16:20:02.344223938Z INFO  agave_ledger_tool] Purging dead slot 257471988
+[2024-04-25T16:20:02.344314076Z INFO  solana_metrics::metrics] datapoint: blockstore-purge from_slot=257471946i to_slot=257471946i delete_range_us=25102i write_batch_us=7608i delete_files_in_range_us=7608i
+[2024-04-25T16:20:02.640874076Z INFO  solana_ledger::blockstore::blockstore_purge] purge_from_next_slots: meta for slot 257471983 no longer refers to slots 257471988..=257471988
+[2024-04-25T16:20:02.828834736Z INFO  solana_metrics::metrics] datapoint: blockstore-purge from_slot=257471988i to_slot=257471988i delete_range_us=165358i write_batch_us=22448i delete_files_in_range_us=22448i
+[2024-04-25T16:20:03.515727679Z INFO  agave_ledger_tool] ledger tool took 576.8s
+```
