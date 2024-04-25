@@ -1168,3 +1168,18 @@ Ledger has data for 425162 slots 257034560 to 257472032
 
 In order to prevent the validator from pruning roots from `StatusCache`, `MAX_CACHE_ENTRIES` needs to be increased to a
 big value like `100_000_000`, just like in the branch https://github.com/andreisilviudragnea/solana/tree/increase-max-cache-entries-v1.17.
+
+Try this again after a longer time:
+```bash
+curl --location 'http://127.0.0.1:8899' \
+--header 'Content-Type: application/json' \
+--data '{
+    "jsonrpc": "2.0",
+    "method": "getBlock",
+    "params": [
+        257169416,
+        {"commitment": "confirmed", "maxSupportedTransactionVersion": 0}
+    ],
+    "id": 1
+}' > out2.txt
+```
