@@ -983,3 +983,16 @@ curl --location 'http://127.0.0.1:8899' \
     "id": 1
 }' > out.txt
 ```
+
+After ledger replay, it ended up here:
+```bash
+/opt/solana/solana-release/bin/solana-validator --ledger /mnt/ledger monitor
+Ledger location: /mnt/ledger
+Identity: Dj5LT2qtwN6DtTQme1uiU5SJGRYFjuM1TcmxdvRKUd1V
+Genesis Hash: 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d
+Version: 1.17.28
+Shred Version: 50093
+Gossip Address: 147.75.82.47:8001
+TPU Address: 147.75.82.47:8003
+⠤ 41:45:01 | 431403 slots behind | Processed Slot: 257197957 | Confirmed Slot: 257040601 | Finalized Slot: 257197957 | Full Snapshot Slot: 257187750 | Incremental Snapshot Slot: 257197855 | Transactions: 27943121
+```
