@@ -1064,7 +1064,7 @@ Slot 257197555 - not works
 Apr 25 14:43:28 solana-test-01 solana-validator[704600]: [2024-04-25T14:43:28.425161045Z WARN  solana_rpc::rpc_health] health check: behind by 274149 slots: me=257197855, latest cluster=257472004
 ```
 
-This logic in StatusCache might be the reason getBlock stops responding after about 300 slots:
+This logic in `StatusCache` might be the reason `getBlock` stops responding after about 300 slots:
 ```Rust
     pub fn purge_roots(&mut self) {
         if self.roots.len() > MAX_CACHE_ENTRIES {
@@ -1075,10 +1075,6 @@ This logic in StatusCache might be the reason getBlock stops responding after ab
             }
         }
     }
-```
-
-```Rust
-pub const MAX_CACHE_ENTRIES: usize = MAX_RECENT_BLOCKHASHES;
 ```
 
 ```Rust
@@ -1169,3 +1165,6 @@ Ledger has data for 425162 slots 257034560 to 257472032
 ```
 ⠒ Validator startup: ProcessingLedger { slot: 257197878, max_slot: 257472032 }...
 ```
+
+In order to prevent the validator from pruning roots from `StatusCache`, `MAX_CACHE_ENTRIES` needs to be increased to a
+big value like `100_000_000`, just like in the branch TODO.
