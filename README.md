@@ -1165,3 +1165,7 @@ Ledger has data for 425162 slots 257034560 to 257472032
   with 414284 rooted slots from 257034560 to 257471967
   and 44 slots past the last root
 ```
+
+```
+⠒ Validator startup: ProcessingLedger { slot: 257197878, max_slot: 257472032 }...
+```
