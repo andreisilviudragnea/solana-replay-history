@@ -1154,4 +1154,14 @@ Ledger has data for 425995 slots 257034560 to 257472032
 0
 ```
 
-Some dead slots can also be rooted slots!!!
+Some dead slots can also be rooted slots (check slot 257197958)!!!
+
+```bash
+~/solana/target/release/agave-ledger-tool bounds
+```
+
+```
+Ledger has data for 425162 slots 257034560 to 257472032
+  with 414284 rooted slots from 257034560 to 257471967
+  and 44 slots past the last root
+```
