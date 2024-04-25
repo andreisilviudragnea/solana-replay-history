@@ -1092,3 +1092,9 @@ static_assertions::const_assert_eq!(MAX_RECENT_BLOCKHASHES, 300);
 pub const MAX_RECENT_BLOCKHASHES: usize =
     MAX_HASH_AGE_IN_SECONDS * DEFAULT_TICKS_PER_SECOND as usize / DEFAULT_TICKS_PER_SLOT as usize;
 ```
+
+```
+Apr 25 16:00:58 solana-test-01 solana-validator[724756]: [2024-04-25T16:00:58.065821068Z WARN  solana_ledger::blockstore_processor] slot 257197958 failed to verify: failed to load entries, error: blockstore error
+...
+Apr 25 16:00:58 solana-test-01 solana-validator[724756]: [2024-04-25T16:00:58.067296032Z ERROR solana_accounts_db::accounts_db] set_hash: already exists; multiple forks with shared slot 257197958 as child (parent: 257197957)!?
+```
