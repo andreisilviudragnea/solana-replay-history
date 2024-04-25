@@ -1030,7 +1030,21 @@ curl --location 'http://127.0.0.1:8899' \
 ```
 
 ```All optimistic slots working:
+Slot 257197958 - not works
 Slot 257197957 - works
+Slot 257197956 - works
+Slot 257197955 - works
+Slot 257197949 - works
+Slot 257197946 - works
+Slot 257197944 - works
+Slot 257197943 - not works
+Slot 257197942 - not works
+Slot 257197941 - not works
+Slot 257197940 - not works
+Slot 257197939 - works
+Slot 257197936 - works
+Slot 257197930 - works
+Slot 257197905 - not works
 Slot 257197856 - not works
 Slot 257197855 - works
 Slot 257197765 - works
