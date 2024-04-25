@@ -1135,3 +1135,23 @@ Ledger has data for 425995 slots 257034560 to 257472032
 ```bash
 ~/solana/target/release/agave-ledger-tool purge --dead-slots-only 257041556
 ```
+
+```
+[2024-04-25T16:28:59.288671941Z INFO  solana_metrics::metrics] datapoint: blockstore-purge from_slot=257197212i to_slot=257197212i delete_range_us=343143i write_batch_us=27536i delete_files_in_range_us=27536i
+[2024-04-25T16:28:59.402016360Z INFO  solana_ledger::blockstore::blockstore_purge] purge_from_next_slots: meta for slot 257197267 no longer refers to slots 257197272..=257197272
+[2024-04-25T16:28:59.582096201Z INFO  solana_metrics::metrics] datapoint: blockstore-purge from_slot=257197272i to_slot=257197272i delete_range_us=156832i write_batch_us=23108i delete_files_in_range_us=23108i
+[2024-04-25T16:28:59.583895951Z INFO  agave_ledger_tool] Purging dead slot 257197860
+[2024-04-25T16:28:59.695926566Z INFO  solana_ledger::blockstore::blockstore_purge] purge_from_next_slots: meta for slot 257197851 no longer refers to slots 257197860..=257197860
+[2024-04-25T16:28:59.987463014Z INFO  solana_metrics::metrics] datapoint: blockstore-purge from_slot=257197860i to_slot=257197860i delete_range_us=251488i write_batch_us=39895i delete_files_in_range_us=39895i
+[2024-04-25T16:29:00.667574124Z INFO  agave_ledger_tool] ledger tool took 203.8s
+```
+
+```bash
+~/solana/target/release/agave-ledger-tool dead-slots | wc -l
+```
+
+```
+0
+```
+
+Some dead slots can also be rooted slots!!!
