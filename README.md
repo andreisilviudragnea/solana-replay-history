@@ -1010,6 +1010,10 @@ TPU Address: 147.75.82.47:8003
 ⠠ 00:21:30 | 274149 slots behind | Processed Slot: 257197957 | Confirmed Slot: 257197855 | Finalized Slot: 257197957 | Full Snapshot Slot: 257187750 | Incremental Snapshot Slot: 257197855 | Transactions: 27943121
 ```
 
+Can finalized slot be more than confirmed slot? I think it should be:
+processed slot > confirmed slot > finalized slot
+257197957 > 257197855 > 257197957
+
 And this block is always output:
 ```bash
 curl --location 'http://127.0.0.1:8899' \
@@ -1039,4 +1043,8 @@ Slot 257197638 - not works
 Slot 257197634 - not works
 Slot 257197625 - not works
 Slot 257197555 - not works
+```
+
+```
+Apr 25 14:43:28 solana-test-01 solana-validator[704600]: [2024-04-25T14:43:28.425161045Z WARN  solana_rpc::rpc_health] health check: behind by 274149 slots: me=257197855, latest cluster=257472004
 ```
