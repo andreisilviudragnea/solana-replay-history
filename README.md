@@ -1061,3 +1061,19 @@ This logic in StatusCache might be the reason getBlock stops responding after ab
         }
     }
 ```
+
+```Rust
+pub const MAX_CACHE_ENTRIES: usize = MAX_RECENT_BLOCKHASHES;
+```
+
+```Rust
+pub const MAX_CACHE_ENTRIES: usize = MAX_RECENT_BLOCKHASHES;
+```
+
+```Rust
+#[cfg(test)]
+static_assertions::const_assert_eq!(MAX_RECENT_BLOCKHASHES, 300);
+// Number of maximum recent blockhashes (one blockhash per non-skipped slot)
+pub const MAX_RECENT_BLOCKHASHES: usize =
+    MAX_HASH_AGE_IN_SECONDS * DEFAULT_TICKS_PER_SECOND as usize / DEFAULT_TICKS_PER_SLOT as usize;
+```
