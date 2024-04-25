@@ -1113,3 +1113,13 @@ Apr 23 13:40:29 solana-test-01 solana-validator[477991]: [2024-04-23T13:40:29.94
 [2024-04-25T16:20:02.828834736Z INFO  solana_metrics::metrics] datapoint: blockstore-purge from_slot=257471988i to_slot=257471988i delete_range_us=165358i write_batch_us=22448i delete_files_in_range_us=22448i
 [2024-04-25T16:20:03.515727679Z INFO  agave_ledger_tool] ledger tool took 576.8s
 ```
+
+```bash
+~/solana/target/release/agave-ledger-tool bounds
+```
+
+```
+Ledger has data for 425995 slots 257034560 to 257472032
+  with 414284 rooted slots from 257034560 to 257471967
+  and 44 slots past the last root
+```
