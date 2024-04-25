@@ -1097,4 +1097,6 @@ pub const MAX_RECENT_BLOCKHASHES: usize =
 Apr 25 16:00:58 solana-test-01 solana-validator[724756]: [2024-04-25T16:00:58.065821068Z WARN  solana_ledger::blockstore_processor] slot 257197958 failed to verify: failed to load entries, error: blockstore error
 ...
 Apr 25 16:00:58 solana-test-01 solana-validator[724756]: [2024-04-25T16:00:58.067296032Z ERROR solana_accounts_db::accounts_db] set_hash: already exists; multiple forks with shared slot 257197958 as child (parent: 257197957)!?
+...
+Apr 23 13:40:29 solana-test-01 solana-validator[477991]: [2024-04-23T13:40:29.942206842Z ERROR solana_metrics::metrics] datapoint: replay-stage-mark_dead_slot error="error: FailedToLoadEntries(DeadSlot)" slot=257197958i
 ```
