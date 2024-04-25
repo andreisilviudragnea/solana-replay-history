@@ -1048,3 +1048,16 @@ Slot 257197555 - not works
 ```
 Apr 25 14:43:28 solana-test-01 solana-validator[704600]: [2024-04-25T14:43:28.425161045Z WARN  solana_rpc::rpc_health] health check: behind by 274149 slots: me=257197855, latest cluster=257472004
 ```
+
+This logic in StatusCache might be the reason getBlock stops responding after about 300 slots:
+```Rust
+    pub fn purge_roots(&mut self) {
+        if self.roots.len() > MAX_CACHE_ENTRIES {
+            if let Some(min) = self.roots.iter().min().cloned() {
+                self.roots.remove(&min);
+                self.cache.retain(|_, (fork, _, _)| *fork > min);
+                self.slot_deltas.retain(|slot, _| *slot > min);
+            }
+        }
+    }
+```
