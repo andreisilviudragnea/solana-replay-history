@@ -1029,7 +1029,8 @@ curl --location 'http://127.0.0.1:8899' \
 }' > out.txt
 ```
 
-```
+```All optimistic slots working:
+Slot 257197957 - works
 Slot 257197856 - not works
 Slot 257197855 - works
 Slot 257197765 - works
