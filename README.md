@@ -1131,3 +1131,7 @@ Ledger has data for 425995 slots 257034560 to 257472032
 ```
 257041556
 ```
+
+```bash
+~/solana/target/release/agave-ledger-tool purge --dead-slots-only 257041556
+```
