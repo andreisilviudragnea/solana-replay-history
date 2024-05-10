@@ -1202,3 +1202,10 @@ RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool verif
 ```
 
 The expected output should be non-empty.
+
+The command `time tar --use-compress-program=unzstd -xvf rocksdb.tar.zst` took:
+```
+real    51m6.774s
+user    20m3.078s
+sys     50m41.388s
+```
