@@ -960,14 +960,15 @@ Summary of Programs:
 [2024-04-19T11:45:51.893169639Z INFO  agave_ledger_tool] ledger tool took 7.0s
 ```
 
-The validator can be started up with config from `neon-geyser.service`, but the startup snapshot needs to be exactly the 
+The validator can be started up with config from `neon-geyser.service`, but the startup snapshot needs to be exactly the
 first slot of the ledger archive (`rocksdb.tar.zst`), otherwise the validator will end up in an inconsistent state:
 
 Validator startup: ProcessingLedger { slot: 257034574, max_slot: 257472032 }...
 Validator startup: ProcessingLedger { slot: 257040631, max_slot: 257472032 }...
 
 This works only with `"commitment": "confirmed"` (`finalized` not returning anything, `processed` not supported by RPC
-endpoint) and for a short time (about 300 slots after slot shows up in `Validator startup: ProcessingLedger { slot: 257040631, max_slot: 257472032 }...`). 
+endpoint) and for a short time (about 300 slots after slot shows up
+in `Validator startup: ProcessingLedger { slot: 257040631, max_slot: 257472032 }...`).
 Still need to investigate why:
 
 ```bash
@@ -985,6 +986,7 @@ curl --location 'http://127.0.0.1:8899' \
 ```
 
 After ledger replay, it ended up here:
+
 ```bash
 /opt/solana/solana-release/bin/solana-validator --ledger /mnt/ledger monitor
 Ledger location: /mnt/ledger
@@ -998,6 +1000,7 @@ TPU Address: 147.75.82.47:8003
 ```
 
 After a restart, it ended up here:
+
 ```bash
 /opt/solana/solana-release/bin/solana-validator --ledger /mnt/ledger monitor
 Ledger location: /mnt/ledger
@@ -1015,6 +1018,7 @@ processed slot > confirmed slot > finalized slot
 257197957 > 257197855 > 257197957
 
 And this block is always output:
+
 ```bash
 curl --location 'http://127.0.0.1:8899' \
 --header 'Content-Type: application/json' \
@@ -1065,16 +1069,17 @@ Apr 25 14:43:28 solana-test-01 solana-validator[704600]: [2024-04-25T14:43:28.42
 ```
 
 This logic in `StatusCache` might be the reason `getBlock` stops responding after about 300 slots:
+
 ```Rust
     pub fn purge_roots(&mut self) {
-        if self.roots.len() > MAX_CACHE_ENTRIES {
-            if let Some(min) = self.roots.iter().min().cloned() {
-                self.roots.remove(&min);
-                self.cache.retain(|_, (fork, _, _)| *fork > min);
-                self.slot_deltas.retain(|slot, _| *slot > min);
-            }
+    if self.roots.len() > MAX_CACHE_ENTRIES {
+        if let Some(min) = self.roots.iter().min().cloned() {
+            self.roots.remove(&min);
+            self.cache.retain(|_, (fork, _, _)| *fork > min);
+            self.slot_deltas.retain(|slot, _| *slot > min);
         }
     }
+}
 ```
 
 ```Rust
@@ -1167,9 +1172,11 @@ Ledger has data for 425162 slots 257034560 to 257472032
 ```
 
 In order to prevent the validator from pruning roots from `StatusCache`, `MAX_CACHE_ENTRIES` needs to be increased to a
-big value like `100_000_000`, just like in the branch https://github.com/andreisilviudragnea/solana/tree/increase-max-cache-entries-v1.17.
+big value like `100_000_000`, just like in the
+branch https://github.com/andreisilviudragnea/solana/tree/increase-max-cache-entries-v1.17.
 
 Try this again after a longer time:
+
 ```bash
 curl --location 'http://127.0.0.1:8899' \
 --header 'Content-Type: application/json' \
@@ -1185,7 +1192,9 @@ curl --location 'http://127.0.0.1:8899' \
 ```
 
 # How to replay the ledger with different log limit configuration
+
 First run:
+
 ```
 ~/solana/target/release/agave-ledger-tool slot 257197855 -vv | grep "Log truncated"
 ```
@@ -1193,6 +1202,7 @@ First run:
 The expected output should be empty.
 
 Then run:
+
 ```
 RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool verify \
   --skip-verification \
@@ -1204,8 +1214,18 @@ RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool verif
 The expected output should be non-empty.
 
 The command `time tar --use-compress-program=unzstd -xvf rocksdb.tar.zst` took:
+
 ```
 real    51m6.774s
 user    20m3.078s
 sys     50m41.388s
+```
+
+Using snapshots created from validator containing increased constant `MAX_RECENT_BLOCKHASHES` results in error when
+running `agave-ledger-tool verify`:
+
+```
+[2024-05-10T13:08:34.109390395Z ERROR solana_ledger::bank_forks_utils] Failed to load bank: snapshot slot deltas are invalid: too many entries: 27601 (max: 300)
+    full snapshot archive: /mnt/ledger/snapshot-257187750-H2DVPWrD1meuxhjjeHTMP2JEy2fPZueeKBNZNuR1waNL.tar.zst
+    incremental snapshot archive: /mnt/ledger/incremental-snapshot-257187750-257197855-48nkWwN7V93hR3d3McrpttJsvfVs94EuZbsyh88AXBSD.tar.zst
 ```
