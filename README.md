@@ -1202,7 +1202,6 @@ First run:
 The expected output should be non-empty.
 
 Then run:
-
 ```
 RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool verify \
   --skip-verification \
@@ -1214,6 +1213,19 @@ RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool verif
 
 Then run again `~/solana/target/release/agave-ledger-tool slot 257197857 -vv | grep "Log Messages"`.
 The expected output should be empty.
+
+Then run:
+```
+RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool verify \
+  --skip-verification \
+  --halt-at-slot 257197857 \
+  --log-messages-bytes-limit 100 \
+  --enable-rpc-transaction-history \
+  --enable-extended-tx-metadata-storage
+```
+
+Then run again `~/solana/target/release/agave-ledger-tool slot 257197857 -vv | grep "Log truncated"`.
+The expected output should be non-empty.
 
 The command `time tar --use-compress-program=unzstd -xvf rocksdb.tar.zst` took:
 
