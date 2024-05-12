@@ -1196,10 +1196,10 @@ curl --location 'http://127.0.0.1:8899' \
 First run:
 
 ```
-~/solana/target/release/agave-ledger-tool slot 257197856 -vv | grep "Log truncated"
+~/solana/target/release/agave-ledger-tool slot 257197857 -vv | grep "Log Messages"
 ```
 
-The expected output should be empty.
+The expected output should be non-empty.
 
 Then run:
 
@@ -1211,7 +1211,8 @@ RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool verif
   --enable-rpc-transaction-history
 ```
 
-The expected output should be non-empty.
+Then run again `~/solana/target/release/agave-ledger-tool slot 257197857 -vv | grep "Log Messages"`.
+The expected output should be empty.
 
 The command `time tar --use-compress-program=unzstd -xvf rocksdb.tar.zst` took:
 
