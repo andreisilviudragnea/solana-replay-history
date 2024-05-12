@@ -1196,7 +1196,7 @@ curl --location 'http://127.0.0.1:8899' \
 First run:
 
 ```
-~/solana/target/release/agave-ledger-tool slot 257197858 -vv | grep "Log Messages"
+~/solana/target/release/agave-ledger-tool slot 257197857 -vv | grep "Log Messages"
 ```
 
 The expected output should be non-empty.
@@ -1206,13 +1206,13 @@ Then run:
 ```
 RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool verify \
   --skip-verification \
-  --halt-at-slot 257197859 \
-  --log-messages-bytes-limit 1000000 \
+  --halt-at-slot 257197857 \
+  --log-messages-bytes-limit 5 \
   --enable-rpc-transaction-history \
   --enable-extended-tx-metadata-storage
 ```
 
-Then run again `~/solana/target/release/agave-ledger-tool slot 257197858 -vv | grep "Log Messages"`.
+Then run again `~/solana/target/release/agave-ledger-tool slot 257197857 -vv | grep "Log Messages"`.
 The expected output should be empty.
 
 The command `time tar --use-compress-program=unzstd -xvf rocksdb.tar.zst` took:
