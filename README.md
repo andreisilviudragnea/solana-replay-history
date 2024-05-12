@@ -1209,7 +1209,7 @@ RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool verif
   --halt-at-slot 257197859 \
   --log-messages-bytes-limit 1000000 \
   --enable-rpc-transaction-history \
-  --ledger-tool-enable-extended-tx-metadata-storage
+  --enable-extended-tx-metadata-storage
 ```
 
 Then run again `~/solana/target/release/agave-ledger-tool slot 257197858 -vv | grep "Log Messages"`.
