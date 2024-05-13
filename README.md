@@ -1215,6 +1215,11 @@ Then run:
 ```
 The expected output should be non-empty.
 
+A slot with truncated logs can be uploaded to bigtable with the command:
+```
+~/solana/target/release/agave-ledger-tool bigtable upload 257197857 257197857 --force
+```
+
 The command `time tar --use-compress-program=unzstd -xvf rocksdb.tar.zst` took:
 
 ```
