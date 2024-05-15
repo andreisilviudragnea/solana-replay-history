@@ -447,6 +447,29 @@ Ledger has data for 427359 slots 257034560 to 257472032
 should be identical to the content
 of [bounds.txt](https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/bounds.txt) file.
 
+## 8. Check tx slot for `"Log truncated"` message
+
+Run:
+
+```bash
+cd /mnt
+~/solana/target/release/agave-ledger-tool slot 257207162 -vv | grep "Log truncated"
+```
+
+The expected output should be non-empty:
+
+```
+[2024-05-15T08:29:44.967464096Z INFO  agave_ledger_tool] agave-ledger-tool 1.17.34 (src:00000000; feat:3746964731, client:Agave)
+[2024-05-15T08:29:44.967591845Z INFO  solana_ledger::blockstore] Maximum open file descriptors: 1000000
+[2024-05-15T08:29:44.967596484Z INFO  solana_ledger::blockstore] Opening database at "/mnt/ledger/rocksdb"
+[2024-05-15T08:29:44.976178871Z INFO  solana_ledger::blockstore_db] Opening Rocks with secondary (read only) access at: "/mnt/ledger/rocksdb/solana-secondary"
+[2024-05-15T08:29:44.976195150Z INFO  solana_ledger::blockstore_db] This secondary access could temporarily degrade other accesses, such as by agave-validator
+[2024-05-15T08:29:52.384323778Z INFO  solana_ledger::blockstore_db] Rocks's automatic compactions are disabled due to Secondary access
+[2024-05-15T08:29:52.384464206Z INFO  solana_ledger::blockstore] "/mnt/ledger/rocksdb" open took 7.4s
+        Log truncated
+[2024-05-15T08:29:53.518786028Z INFO  agave_ledger_tool] ledger tool took 8.6s
+```
+
 ## 8. Hook a simple Geyser plugin in the ledger replay process
 
 The `agave-ledger-tool` has a `--geyser-plugin-config` parameter that can be used to hook a Geyser plugin in the ledger
