@@ -342,6 +342,9 @@ du -sh /mnt/ledger/rocksdb
 
 So the `/mnt/ledger` drive should have at least 3 TB capacity.
 
+<details>
+<summary>Extracting ledger archive timings</summary>
+
 Extracting `rocksdb.tar.zst` takes (`23m 12.289s`) when using `pzstd`:
 
 ```bash
@@ -368,6 +371,8 @@ real    34m23.924s
 user    14m21.847s
 sys     34m6.154s
 ```
+
+</details>
 
 ## 6. Compile `agave-ledger-tool` with `--log-messages-bytes-limit` support
 
