@@ -1,6 +1,7 @@
 # How to recover truncated logs for Solana mainnet txs from Google Cloud Storage snapshots and ledger archives?
 
-## Solana storage
+<details>
+<summary>Solana Google Storage</summary>
 
 - Google Big Table (uploaded by the validator itself using parameter `--enable-bigtable-ledger-upload`):
     - ledger data (rooted slots, blocks, txs) - this is
@@ -9,6 +10,8 @@
   repository):
     - bank snapshots (account states and other metadata at a specific slot)
     - ledger archives (txs, blocks, slots, forks)
+
+</details>
 
 As an example, let's use this Solana tx with truncated
 logs: [4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj).
