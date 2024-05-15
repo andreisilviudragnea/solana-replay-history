@@ -1,5 +1,9 @@
 # How to recover truncated logs for Solana mainnet txs from Google Cloud Storage snapshots and ledger archives?
 
+As an example, let's use this Solana tx with truncated
+logs: [4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj).
+It contains a log line `"Log truncated"`.
+
 <details>
 <summary>Solana Google Storage</summary>
 
@@ -13,14 +17,10 @@
 
 </details>
 
-As an example, let's use this Solana tx with truncated
-logs: [4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj).
-It contains a log line "Log truncated".
-
-For this tutorial, a powerful Ubuntu machine is needed. I used a machine with the following specs:
-
 <details>
 <summary>Ubuntu machine specs</summary>
+
+For this tutorial, a powerful Ubuntu machine is needed. I used a machine with the following specs:
 
 ```bash
 lscpu
