@@ -374,26 +374,28 @@ sys     34m6.154s
 
 </details>
 
-## 6. Compile `agave-ledger-tool` with `--log-messages-bytes-limit` support
+## 6. Compile `agave-ledger-tool` with support for `--log-messages-bytes-limit` and `--enable-extended-tx-metadata-storage` arguments
 
-`agave-ledger-tool` does not support the `--log-messages-bytes-limit` parameter. I created a
+`agave-ledger-tool` now supports both `--log-messages-bytes-limit` and `--enable-extended-tx-metadata-storage` arguments
+since https://github.com/anza-xyz/agave/pull/854 and https://github.com/anza-xyz/agave/pull/1344 have been merged.
+
+For previous Solana versions, like [v1.17](https://github.com/anza-xyz/agave/tree/v1.17), these changes need to be
+cherry-picked. I created a
 branch [ledger-tool-log-messages-bytes-limit-v1.17](https://github.com/andreisilviudragnea/solana/tree/ledger-tool-log-messages-bytes-limit-v1.17)
-from [v1.17](https://github.com/anza-xyz/agave/tree/v1.17) with support for this parameter. Future Agave client versions
-will support this parameter, as https://github.com/anza-xyz/agave/pull/854 has been merged.
+from [v1.17](https://github.com/anza-xyz/agave/tree/v1.17) with support for both arguments above.
 
 ```bash
 git clone https://github.com/andreisilviudragnea/solana.git
 cd solana/ledger-tool
 git checkout ledger-tool-log-messages-bytes-limit-v1.17
 cargo build --release
-cd ../target/release
-./agave-ledger-tool --version
+../target/release/agave-ledger-tool --version
 ```
 
 Running the commands above should give an output something similar to:
 
 ```bash
-agave-ledger-tool 1.17.32 (src:00000000; feat:3746964731, client:Agave)
+agave-ledger-tool 1.17.34 (src:00000000; feat:3746964731, client:Agave)
 ```
 
 ## 7. Check the downloaded ledger data by running `agave-ledger-tool bounds`
