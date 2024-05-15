@@ -297,13 +297,13 @@ archive is huge (`838.6 GB`), so use a screen session if your connection is unst
 
 ```bash
 cd /mnt/ledger
-gcloud storage cp gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst .
+gcloud storage cp gs://mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst .
 ```
 
 Output of `gcloud storage cp` command:
 
 ```
-Copying gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst to file://./rocksdb.tar.zst
+Copying gs://mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst to file://./rocksdb.tar.zst
   Completed files 1/1 | 791.1GiB/791.1GiB | 94.4MiB/s
 
 Average throughput: 1.1GiB/s
