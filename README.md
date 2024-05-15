@@ -470,29 +470,6 @@ The expected output should be non-empty:
 [2024-05-15T08:29:53.518786028Z INFO  agave_ledger_tool] ledger tool took 8.6s
 ```
 
-## 8. Hook a simple Geyser plugin in the ledger replay process
-
-The `agave-ledger-tool` has a `--geyser-plugin-config` parameter that can be used to hook a Geyser plugin in the ledger
-replay process. For this example, we will use a very simple plugin that logs only the expected tx with signature
-[4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj).
-The plugin can be found
-at [simple-solana-geyser-plugin](https://github.com/andreisilviudragnea/simple-solana-geyser-plugin).
-
-```bash
-git clone https://github.com/andreisilviudragnea/simple-solana-geyser-plugin.git
-cd simple-solana-geyser-plugin
-cargo build --release
-vim config.json # Edit this file to contain the path to the compiled plugin shared library
-```
-
-In my case, it looks something like this:
-
-```json
-{
-  "libpath": "/root/simple-solana-geyser-plugin/target/release/libsimple_solana_geyser_plugin.so"
-}
-```
-
 ## 9. Replay the ledger between the snapshot slot and the tx slot
 
 The ledger replay process will start from the snapshot slot [257197855](https://solscan.io/block/257197855), which
@@ -504,8 +481,9 @@ cd /mnt
 RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool verify \
   --skip-verification \
   --halt-at-slot 257207163 \
-  --geyser-plugin-config /root/simple-solana-geyser-plugin/config.json \
-  --log-messages-bytes-limit 1000000
+  --log-messages-bytes-limit 1000000 \
+  --enable-rpc-transaction-history \
+  --enable-extended-tx-metadata-storage
 ```
 
 The meaning of all the parameters:
@@ -514,11 +492,15 @@ The meaning of all the parameters:
 - `--halt-at-slot 257207163` - Halt the ledger replay process at the specified slot.
   The ledger replay process will start from the snapshot slot [257197855](https://solscan.io/block/257197855) until
   after the tx slot.
-- `--geyser-plugin-config /root/simple-solana-geyser-plugin/config.json` - Specify the configuration file for the Geyser
-  plugin.
 - `--log-messages-bytes-limit 1000000` - Maximum number of bytes written to the program log before truncation. This
   needs to be a bigger value than the default
   of [10000](https://github.com/anza-xyz/agave/blob/master/program-runtime/src/log_collector.rs#L4).
+- `--enable-rpc-transaction-history` - Store transaction info for processed slots into local ledger.
+- `--enable-extended-tx-metadata-storage` - Include CPI inner instructions, logs, and return data in the historical
+  transaction info stored.
+
+<details>
+<summary>Geyser plugin log output</summary>
 
 The `notify_transaction` log statement contains the expected tx
 signature [4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj).
@@ -945,6 +927,8 @@ Also, the logs are not truncated anymore:
     })
 ```
 
+</details>
+
 Replaying the ledger is a slow process, it took about 1 hour and 18 minutes for about `9308 (257207163 - 257197855)`
 slots:
 
@@ -965,6 +949,32 @@ The snapshot
 archive [mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst;tab=live_object)
 has a size of 63 GB. When extracted, the size of the content is 228 GB, so the state of all Solana accounts at a
 specific slot is 228 GB at the moment.
+
+<details>
+<summary>Other investigations</summary>
+
+## 8. Hook a simple Geyser plugin in the ledger replay process
+
+The `agave-ledger-tool` has a `--geyser-plugin-config` parameter that can be used to hook a Geyser plugin in the ledger
+replay process. For this example, we will use a very simple plugin that logs only the expected tx with signature
+[4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj).
+The plugin can be found
+at [simple-solana-geyser-plugin](https://github.com/andreisilviudragnea/simple-solana-geyser-plugin).
+
+```bash
+git clone https://github.com/andreisilviudragnea/simple-solana-geyser-plugin.git
+cd simple-solana-geyser-plugin
+cargo build --release
+vim config.json # Edit this file to contain the path to the compiled plugin shared library
+```
+
+In my case, it looks something like this:
+
+```json
+{
+  "libpath": "/root/simple-solana-geyser-plugin/target/release/libsimple_solana_geyser_plugin.so"
+}
+```
 
 Output of `agave-ledger-tool print --num-slots 5` command:
 
@@ -1226,7 +1236,7 @@ curl --location 'http://127.0.0.1:8899' \
 
 First run:
 
-```
+```bash
 ~/solana/target/release/agave-ledger-tool slot 257197857 -vv | grep "Log truncated"
 ```
 
@@ -1234,7 +1244,7 @@ The expected output should be empty.
 
 Then run:
 
-```
+```bash
 RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool verify \
   --skip-verification \
   --halt-at-slot 257197857 \
@@ -1245,7 +1255,7 @@ RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool verif
 
 Then run:
 
-```
+```bash
 ~/solana/target/release/agave-ledger-tool slot 257197857 -vv | grep "Log truncated"
 ```
 
@@ -1253,7 +1263,7 @@ The expected output should be non-empty.
 
 A slot with truncated logs can be uploaded to bigtable with the command:
 
-```
+```bash
 ~/solana/target/release/agave-ledger-tool bigtable upload 257197857 257197857 --force
 ```
 
@@ -1273,3 +1283,5 @@ running `agave-ledger-tool verify`:
     full snapshot archive: /mnt/ledger/snapshot-257187750-H2DVPWrD1meuxhjjeHTMP2JEy2fPZueeKBNZNuR1waNL.tar.zst
     incremental snapshot archive: /mnt/ledger/incremental-snapshot-257187750-257197855-48nkWwN7V93hR3d3McrpttJsvfVs94EuZbsyh88AXBSD.tar.zst
 ```
+
+</details>
