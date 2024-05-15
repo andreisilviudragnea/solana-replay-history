@@ -118,9 +118,10 @@ of [solana-bigtable](https://github.com/solana-labs/solana-bigtable) repository.
 I recommend downloading everything from the endpoint closest to your machine. In my case, I am downloading from Europe
 endpoint, so my download speed is the best.
 
-All downloads in this tutorial will use the [gcloud](https://cloud.google.com/sdk/docs/install#deb) CLI utility. The
-first command to run is `gcloud auth login` to authenticate with Google Cloud. Also, all downloads will be done in the
-`/mnt/ledger` directory.
+All downloads in this tutorial will use the [gcloud](https://cloud.google.com/sdk/docs/install#deb) CLI utility because
+it supports [sliced object downloads](https://cloud.google.com/storage/docs/sliced-object-downloads#command-line). The
+first command to run is `gcloud auth login` to authenticate with Google Cloud. Also, all downloads will be done in
+the `/mnt/ledger` directory.
 
 </details>
 
@@ -278,35 +279,34 @@ The output of `du -sh snapshot-untarred` is:
 
 </details>
 
-## 4. Download the ledger archive from Google Cloud Storage for the highest slot less than the tx slot
+## 4. Download the ledger archive for the highest slot less than the tx slot from Google Cloud Storage
 
 The ledger archive contains the ledger data (transactions, blocks, slots, forks) for a specific range of slots. In
-Solana,
-the accounts state (stored in snapshot archive) is decoupled from the ledger (stored in ledger archive). A running
-validator needs all account states at a specific snapshot slot, but only a part of the ledger, for some recent slots.
+Solana, the accounts state (stored in snapshot archive) is decoupled from the ledger (stored in ledger archive). A
+running validator needs all account states at a specific snapshot slot, but only a part of the ledger, for some recent
+slots.
 
 From the same [257034560](https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2/257034560)
 bucket, download
 the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
-archive (the download link is the public URL
-for [rocksdb.tar.zst](https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) from UI).
+archive.
 
-This can take a while (`94m 10s`), because
+This can take a while (`12m 12.65s`), because
 the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
 archive is huge (`838.6 GB`), so use a screen session if your connection is unstable:
 
 ```bash
-root@solana-test-01:/mnt/ledger# wget "https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst"
---2024-04-17 09:54:38--  https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst
-Resolving storage.googleapis.com (storage.googleapis.com)... 142.251.39.123, 142.250.179.155, 142.251.36.59, ...
-Connecting to storage.googleapis.com (storage.googleapis.com)|142.251.39.123|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 900407911369 (839G) [application/octet-stream]
-Saving to: ‘rocksdb.tar.zst’
+cd /mnt/ledger
+gcloud storage cp gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst .
+```
 
-rocksdb.tar.zst                                    100%[================================================================================================================>] 838.57G   154MB/s    in 94m 10s
+Output of `gcloud storage cp` command:
 
-2024-04-17 11:28:48 (152 MB/s) - ‘rocksdb.tar.zst’ saved [900407911369/900407911369]
+```
+Copying gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst to file://./rocksdb.tar.zst
+  Completed files 1/1 | 791.1GiB/791.1GiB | 94.4MiB/s
+
+Average throughput: 1.1GiB/s
 ```
 
 The
@@ -316,18 +316,6 @@ in [epoch.txt](https://console.cloud.google.com/storage/browser/_details/mainnet
 file, roughly [Mar 28, 2024 at 21:39:50 UTC](https://explorer.solana.com/block/257034560)
 until [Mar 31, 2024 at 03:59:19 UTC](https://explorer.solana.com/block/257472031), so for about 2 days, 6 hours, 19
 minutes, and 29 seconds.
-
-Downloading [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
-can be faster (`12m 12.65s`) when
-using [sliced object downloads](https://cloud.google.com/storage/docs/sliced-object-downloads#command-line):
-
-```bash
-gcloud storage cp gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst .
-Copying gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst to file://./rocksdb.tar.zst
-  Completed files 1/1 | 791.1GiB/791.1GiB | 94.4MiB/s
-
-Average throughput: 1.1GiB/s
-```
 
 ## 5. Extract the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) archive
 
