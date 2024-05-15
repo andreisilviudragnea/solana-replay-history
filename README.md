@@ -242,23 +242,24 @@ It is important to use the snapshot of the highest slot less than the tx slot, b
 from the snapshot slot and it is a slow process, so the closer you are to the expected tx slot, the less replay work is
 needed.
 
-Let's download this snapshot in the `/mnt/ledger` directory (the download link is the public URL
-for [257197855](https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst)
-from the UI):
+Let's download this snapshot in the `/mnt/ledger` directory:
 
 ```bash
-root@solana-test-01:/mnt/ledger# wget "https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst"
---2024-04-17 09:52:14--  https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst
-Resolving storage.googleapis.com (storage.googleapis.com)... 216.58.214.27, 142.250.179.187, 142.251.39.123, ...
-Connecting to storage.googleapis.com (storage.googleapis.com)|216.58.214.27|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 66997446556 (62G) [application/octet-stream]
-Saving to: ‘snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst’
-
-snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz 100%[================================================================================================================>]  62.40G   157MB/s    in 6m 46s
-
-2024-04-17 09:59:00 (157 MB/s) - ‘snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst’ saved [66997446556/66997446556]
+cd /mnt/ledger
+gcloud storage cp gs://mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst .
 ```
+
+The download took `1m 3.98s`. Output of `gcloud storage cp` command:
+
+```
+Copying gs://mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst to file://./snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst
+  Completed files 1/1 | 62.4GiB/62.4GiB | 562.7MiB/s
+
+Average throughput: 1.1GiB/s
+```
+
+<details>
+<summary>Untarring a snapshot archive timings</summary>
 
 The `time tar --use-compress-program=unzstd -xvf ../snapshot-261351068-GGqVAFxLKYN3uqgvfpknrrwZwxV24JvK8udsDSqjnQWL.tar.zst`
 command took:
@@ -275,15 +276,7 @@ The output of `du -sh snapshot-untarred` is:
 242G    snapshot-untarred
 ```
 
-You can also use `gcloud` utility to download files faster (`1m 20.88s`):
-
-```bash
-gcloud storage cp gs://mainnet-beta-ledger-europe-fr2/260918655/hourly/snapshot-261351068-GGqVAFxLKYN3uqgvfpknrrwZwxV24JvK8udsDSqjnQWL.tar.zst .
-Copying gs://mainnet-beta-ledger-europe-fr2/260918655/hourly/snapshot-261351068-GGqVAFxLKYN3uqgvfpknrrwZwxV24JvK8udsDSqjnQWL.tar.zst to file://./snapshot-261351068-GGqVAFxLKYN3uqgvfpknrrwZwxV24JvK8udsDSqjnQWL.tar.zst
-  Completed files 1/1 | 65.8GiB/65.8GiB | 516.4MiB/s
-
-Average throughput: 849.9MiB/s
-```
+</details>
 
 ## 4. Download the ledger archive from Google Cloud Storage for the highest slot less than the tx slot
 
