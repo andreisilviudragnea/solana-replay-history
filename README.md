@@ -215,8 +215,8 @@ archive.
 
 ## 3. Download the snapshot for the highest slot less than the tx slot from Google Cloud Storage
 
-The snapshot archive contains the state of all Solana accounts at a specific slot, but also
-the [bank state](https://solana.com/docs/terminology#bank-state).
+The snapshot archive contains the [bank state](https://solana.com/docs/terminology#bank-state) at a specific slot, which
+includes the state of all Solana accounts.
 
 If you check the [257034560](https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2/257034560)
 bucket, you will see both a snapshot for
@@ -227,12 +227,13 @@ containing other snapshots.
 
 If you go into
 the [hourly](https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2/257034560/hourly)
-directory, you will find the snapshot with highest slot less than [257207162](https://solscan.io/block/257207162), which
+bucket, you will find the snapshot with highest slot less than [257207162](https://solscan.io/block/257207162), which
 is
 [257197855](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst).
 
-It is important to use the snapshot of the highest slot less than the tx slot, because ledger replay starts from the
-snapshot slot and it takes a long time, so the closer you are to the expected tx slot, the less replay work is needed.
+It is important to use the snapshot of the highest slot less than the tx slot, because the ledger replay process starts
+from the snapshot slot and it is a slow process, so the closer you are to the expected tx slot, the less replay work is
+needed.
 
 Let's download this snapshot in the `/mnt/ledger` directory (the download link is the public URL
 for [257197855](https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst)
