@@ -97,7 +97,25 @@ Codename:	jammy
 
 </details>
 
-## 1. Download the [genesis.tar.bz2](https://api.mainnet-beta.solana.com/genesis.tar.bz2) (34 KB) archive for Solana Mainnet cluster
+## 1. Download the [genesis.tar.bz2](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/genesis.tar.bz2) (34 KB) archive for Solana Mainnet cluster
+
+<details>
+<summary>Google Cloud Storage endpoints</summary>
+
+The Google Cloud Storage endpoints are:
+
+- https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-us-ny5
+- https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2 (used in this tutorial)
+- https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-asia-sg1
+
+These endpoints are taken
+from the [README](https://github.com/solana-labs/solana-bigtable/blob/master/README.md?plain=1#L124)
+of [solana-bigtable](https://github.com/solana-labs/solana-bigtable) repository.
+
+I recommend downloading everything from the endpoint closest to your machine. In my case, I am downloading from Europe
+endpoint, so my download speed is the best.
+
+</details>
 
 An important part of the ledger replay process is the genesis archive. This archive contains the genesis configuration
 for Solana Mainnet cluster. It needs to be downloaded into the `/mnt/ledger` directory:
@@ -170,16 +188,6 @@ A shred is a fraction of a block; the smallest unit sent between validators duri
 
 ## 2. Find the bucket with the highest slot less than the tx slot in Google Cloud Storage
 
-The Google Cloud Storage endpoints are:
-
-- https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-us-ny5
-- https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2 (used in this tutorial)
-- https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-asia-sg1
-
-These endpoints are taken
-from the [README](https://github.com/solana-labs/solana-bigtable/blob/master/README.md?plain=1#L124)
-of [solana-bigtable](https://github.com/solana-labs/solana-bigtable) repository.
-
 For our example, the slot of
 tx [4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj)
 is [257207162](https://solscan.io/block/257207162).
@@ -205,13 +213,10 @@ The bounds in this file refer to ledger data inside
 the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
 archive.
 
-## 2. Download the snapshot from Google Cloud Storage for the highest slot less than the tx slot
+## 3. Download the snapshot for the highest slot less than the tx slot from Google Cloud Storage
 
 The snapshot archive contains the state of all Solana accounts at a specific slot, but also
 the [bank state](https://solana.com/docs/terminology#bank-state).
-
-I recommend downloading from the endpoint closest to your machine. In my case, I am downloading from Europe endpoint, so
-my download speed is the best.
 
 If you check the [257034560](https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2/257034560)
 bucket, you will see both a snapshot for
