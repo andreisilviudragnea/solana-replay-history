@@ -97,7 +97,78 @@ Codename:	jammy
 
 </details>
 
-## 1. Find the bucket with the highest slot less than the tx slot in Google Cloud Storage
+## 1. Download the [genesis.tar.bz2](https://api.mainnet-beta.solana.com/genesis.tar.bz2) (34 KB) archive for Solana Mainnet cluster
+
+An important part of the ledger replay process is the genesis archive. This archive contains the genesis configuration
+for Solana Mainnet cluster. It needs to be downloaded into the `/mnt/ledger` directory:
+
+```bash
+cd /mnt/ledger
+gcloud storage cp gs://mainnet-beta-ledger-europe-fr2/genesis.tar.bz2 .
+```
+
+<details>
+<summary>Details about Solana Genesis Config, time units and concepts</summary>
+
+The output of `agave-ledger-tool genesis` command:
+
+```bash
+root@solana-test-01:/mnt# RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool genesis
+[2024-04-19T11:29:08.831326873Z INFO  agave_ledger_tool] agave-ledger-tool 1.17.32 (src:00000000; feat:3746964731, client:Agave)
+Creation time: 2020-03-16T14:29:00+00:00
+Cluster type: MainnetBeta
+Genesis hash: 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d
+Shred version: 54208
+Ticks per slot: 64
+Hashes per tick: Some(12500)
+Target tick duration: 6.25ms
+Slots per epoch: 432000
+Warmup epochs: disabled
+Slots per year: 78892314.984
+Inflation { initial: 0.0, terminal: 0.0, taper: 0.0, foundation: 0.0, foundation_term: 0.0, __unused: 0.0 }
+Rent { lamports_per_byte_year: 3480, exemption_threshold: 2.0, burn_percent: 100 }
+FeeRateGovernor { lamports_per_signature: 0, target_lamports_per_signature: 10000, target_signatures_per_slot: 20000, min_lamports_per_signature: 5000, max_lamports_per_signature: 100000, burn_percent: 100 }
+Capitalization: 500000000 SOL in 431 accounts
+Native instruction processors: [
+    (
+        "solana_config_program",
+        Config1111111111111111111111111111111111111,
+    ),
+    (
+        "solana_stake_program",
+        Stake11111111111111111111111111111111111111,
+    ),
+    (
+        "solana_system_program",
+        11111111111111111111111111111111,
+    ),
+    (
+        "solana_vote_program",
+        Vote111111111111111111111111111111111111111,
+    ),
+]
+Rewards pool: {}
+```
+
+Solana mainnet time units and concepts:
+
+- Hashes per tick: Some(12_500)
+- Target tick duration: 6.25 ms =>
+- Ticks per slot: 64 => Slot duration: 6.25 ms * 64 = 400 ms
+- Slots per epoch: 432_000 => Epoch duration: 400 ms * 432_000 = 172_800_000 ms = 2 days
+
+At the beginning of each epoch, a leader schedule is decided. The leader schedule is deterministic and can be calculated
+by any node. It maps each validator pubkey to a slot. During each slot, the leader can produce at most one block, so
+there can be slots when no block is produced.
+
+A block contains multiple entries. An entry can contain multiple txs or no tx if the network is just ticking when there
+are not enough txs to fill all entries in a block, like on a development node.
+
+A shred is a fraction of a block; the smallest unit sent between validators during gossip.
+
+</details>
+
+## 2. Find the bucket with the highest slot less than the tx slot in Google Cloud Storage
 
 The Google Cloud Storage endpoints are:
 
@@ -133,15 +204,6 @@ data (`257034560 < 257207162 < 257472032`).
 The bounds in this file refer to ledger data inside
 the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
 archive.
-
-## 2. Download the [genesis.tar.bz2](https://api.mainnet-beta.solana.com/genesis.tar.bz2) (20 KB) archive for Solana Mainnet cluster
-
-An important part of the ledger replay process is the genesis archive. This archive contains the genesis configuration
-for Solana Mainnet cluster. It needs to be downloaded into the `/mnt/ledger` directory:
-
-```bash
-wget "https://api.mainnet-beta.solana.com/genesis.tar.bz2"
-```
 
 ## 2. Download the snapshot from Google Cloud Storage for the highest slot less than the tx slot
 
@@ -879,62 +941,6 @@ The snapshot
 archive [mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst;tab=live_object)
 has a size of 63 GB. When extracted, the size of the content is 228 GB, so the state of all Solana accounts at a
 specific slot is 228 GB at the moment.
-
-The output of `agave-ledger-tool genesis` command:
-
-```bash
-root@solana-test-01:/mnt# RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool genesis
-[2024-04-19T11:29:08.831326873Z INFO  agave_ledger_tool] agave-ledger-tool 1.17.32 (src:00000000; feat:3746964731, client:Agave)
-Creation time: 2020-03-16T14:29:00+00:00
-Cluster type: MainnetBeta
-Genesis hash: 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d
-Shred version: 54208
-Ticks per slot: 64
-Hashes per tick: Some(12500)
-Target tick duration: 6.25ms
-Slots per epoch: 432000
-Warmup epochs: disabled
-Slots per year: 78892314.984
-Inflation { initial: 0.0, terminal: 0.0, taper: 0.0, foundation: 0.0, foundation_term: 0.0, __unused: 0.0 }
-Rent { lamports_per_byte_year: 3480, exemption_threshold: 2.0, burn_percent: 100 }
-FeeRateGovernor { lamports_per_signature: 0, target_lamports_per_signature: 10000, target_signatures_per_slot: 20000, min_lamports_per_signature: 5000, max_lamports_per_signature: 100000, burn_percent: 100 }
-Capitalization: 500000000 SOL in 431 accounts
-Native instruction processors: [
-    (
-        "solana_config_program",
-        Config1111111111111111111111111111111111111,
-    ),
-    (
-        "solana_stake_program",
-        Stake11111111111111111111111111111111111111,
-    ),
-    (
-        "solana_system_program",
-        11111111111111111111111111111111,
-    ),
-    (
-        "solana_vote_program",
-        Vote111111111111111111111111111111111111111,
-    ),
-]
-Rewards pool: {}
-```
-
-Solana mainnet time units and concepts:
-
-- Hashes per tick: Some(12_500)
-- Target tick duration: 6.25 ms =>
-- Ticks per slot: 64 => Slot duration: 6.25 ms * 64 = 400 ms
-- Slots per epoch: 432_000 => Epoch duration: 400 ms * 432_000 = 172_800_000 ms = 2 days
-
-At the beginning of each epoch, a leader schedule is decided. The leader schedule is deterministic and can be calculated
-by any node. It maps each validator pubkey to a slot. During each slot, the leader can produce at most one block, so
-there can be slots when no block is produced.
-
-A block contains multiple entries. An entry can contain multiple txs or no tx if the network is just ticking when there
-are not enough txs to fill all entries in a block, like on a development node.
-
-A shred is a fraction of a block; the smallest unit sent between validators during gossip.
 
 Output of `agave-ledger-tool print --num-slots 5` command:
 
