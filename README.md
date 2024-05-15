@@ -97,7 +97,7 @@ Codename:	jammy
 
 </details>
 
-## 1. Find in Google Cloud Storage the highest slot less than the tx slot
+## 1. Find the bucket with the highest slot less than the tx slot in Google Cloud Storage
 
 The Google Cloud Storage endpoints are:
 
@@ -113,7 +113,7 @@ For our example, the slot of
 tx [4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj)
 is [257207162](https://solscan.io/block/257207162).
 
-In Google Cloud Storage, the highest slot less than [257207162](https://solscan.io/block/257207162)
+In Google Cloud Storage, the bucket with the highest slot less than [257207162](https://solscan.io/block/257207162)
 is [257034560](https://console.cloud.google.com/storage/browser/mainnet-beta-ledger-europe-fr2/257034560).
 
 Check the [bounds.txt](https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/bounds.txt) file inside
