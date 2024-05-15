@@ -277,6 +277,11 @@ The output of `du -sh snapshot-untarred` is:
 242G    snapshot-untarred
 ```
 
+The snapshot
+archive [mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst;tab=live_object)
+has a size of 63 GB. When extracted, the size of the content is 228 GB, so the state of all Solana accounts at a
+specific slot is 228 GB at the moment.
+
 </details>
 
 ## 4. Download the ledger archive for the highest slot less than the tx slot from Google Cloud Storage
@@ -474,7 +479,8 @@ The expected output should be non-empty:
 
 The ledger replay process will start from the snapshot slot [257197855](https://solscan.io/block/257197855), which
 contains all the account states at the specific slot. The ledger will be replayed until after the tx
-slot [257207162](https://solscan.io/block/257207162).
+slot [257207162](https://solscan.io/block/257207162). Use a screen session for the following command, as it takes more
+than 1 hour to run:
 
 ```bash
 cd /mnt
@@ -944,11 +950,6 @@ The total time for this process is about 210 minutes (3 hours and 30 minutes):
 - 94 minutes for downloading the ledger archive
 - 37 minutes for extracting the ledger archive
 - 79 minutes for replaying around 9308 slots
-
-The snapshot
-archive [mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/hourly/snapshot-257197855-jEyCvNxd8BJWA2XJvXb6vvDxbtZnFvz6WQBaVxnxkog.tar.zst;tab=live_object)
-has a size of 63 GB. When extracted, the size of the content is 228 GB, so the state of all Solana accounts at a
-specific slot is 228 GB at the moment.
 
 <details>
 <summary>Other investigations</summary>
