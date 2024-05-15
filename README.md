@@ -291,7 +291,7 @@ bucket, download
 the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
 archive.
 
-This can take a while (`12m 12.65s`), because
+This can take a while (`17m 1.98s`), because
 the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst)
 archive is huge (`838.6 GB`), so use a screen session if your connection is unstable:
 
@@ -304,9 +304,9 @@ Output of `gcloud storage cp` command:
 
 ```
 Copying gs://mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst to file://./rocksdb.tar.zst
-  Completed files 1/1 | 791.1GiB/791.1GiB | 94.4MiB/s
+  Completed files 1/1 | 838.6GiB/838.6GiB | 399.1MiB/s
 
-Average throughput: 1.1GiB/s
+Average throughput: 841.6MiB/s
 ```
 
 The
@@ -422,18 +422,18 @@ ulimit -n 1000000
 Running `./agave-ledger-tool bounds` again should give an output similar to:
 
 ```bash
-[2024-04-17T14:06:09.964041082Z INFO  agave_ledger_tool] agave-ledger-tool 1.17.32 (src:00000000; feat:3746964731, client:Agave)
-[2024-04-17T14:06:09.964137182Z INFO  solana_ledger::blockstore] Maximum open file descriptors: 1000000
-[2024-04-17T14:06:09.964141385Z INFO  solana_ledger::blockstore] Opening database at "/mnt/ledger/rocksdb"
-[2024-04-17T14:06:09.972063122Z INFO  solana_ledger::blockstore_db] Opening Rocks with secondary (read only) access at: "/mnt/ledger/rocksdb/solana-secondary"
-[2024-04-17T14:06:09.972078799Z INFO  solana_ledger::blockstore_db] This secondary access could temporarily degrade other accesses, such as by agave-validator
-[2024-04-17T14:06:22.805794104Z INFO  solana_ledger::blockstore_db] Rocks's automatic compactions are disabled due to Secondary access
-[2024-04-17T14:06:22.805911401Z INFO  solana_ledger::blockstore] "/mnt/ledger/rocksdb" open took 12.8s
+[2024-05-15T08:24:37.837441977Z INFO  agave_ledger_tool] agave-ledger-tool 1.17.34 (src:00000000; feat:3746964731, client:Agave)
+[2024-05-15T08:24:37.837542824Z INFO  solana_ledger::blockstore] Maximum open file descriptors: 1000000
+[2024-05-15T08:24:37.837546750Z INFO  solana_ledger::blockstore] Opening database at "/mnt/ledger/rocksdb"
+[2024-05-15T08:24:37.846358139Z INFO  solana_ledger::blockstore_db] Opening Rocks with secondary (read only) access at: "/mnt/ledger/rocksdb/solana-secondary"
+[2024-05-15T08:24:37.846374972Z INFO  solana_ledger::blockstore_db] This secondary access could temporarily degrade other accesses, such as by agave-validator
+[2024-05-15T08:24:48.624133164Z INFO  solana_ledger::blockstore_db] Rocks's automatic compactions are disabled due to Secondary access
+[2024-05-15T08:24:48.624356723Z INFO  solana_ledger::blockstore] "/mnt/ledger/rocksdb" open took 10.8s
 Ledger has data for 427359 slots 257034560 to 257472032
   with 414285 rooted slots from 257034560 to 257471967
   and 45 slots past the last root
 
-[2024-04-17T14:06:23.500451285Z INFO  agave_ledger_tool] ledger tool took 13.5s
+[2024-05-15T08:24:49.502208148Z INFO  agave_ledger_tool] ledger tool took 11.7s
 ```
 
 The part
