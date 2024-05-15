@@ -1,12 +1,13 @@
-# How to replay Solana mainnet txs from Google Cloud Storage snapshots and ledger archives?
+# How to recover truncated logs for Solana mainnet txs from Google Cloud Storage snapshots and ledger archives?
 
 ## Solana storage
 
 - Google Big Table (uploaded by the validator itself using parameter `--enable-bigtable-ledger-upload`):
-    - ledger data (rooted slots, blocks, txs) - this is what Triton wants to provide as distributed data
+    - ledger data (rooted slots, blocks, txs) - this is
+      what [Triton's Yellowstone](https://github.com/rpcpool/yellowstone-faithful) wants to provide as distributed data
 - Google Cloud Storage (uploaded using scripts from [solana-bigtable](https://github.com/solana-labs/solana-bigtable)
   repository):
-    - accounts snapshots
+    - bank snapshots (account states and other metadata at a specific slot)
     - ledger archives (txs, blocks, slots, forks)
 
 As an example, let's use this Solana tx with truncated
@@ -1194,12 +1195,15 @@ curl --location 'http://127.0.0.1:8899' \
 # How to replay the ledger with different log limit configuration
 
 First run:
+
 ```
 ~/solana/target/release/agave-ledger-tool slot 257197857 -vv | grep "Log truncated"
 ```
+
 The expected output should be empty.
 
 Then run:
+
 ```
 RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool verify \
   --skip-verification \
@@ -1210,12 +1214,15 @@ RUST_LOG=info,solana_metrics=off ~/solana/target/release/agave-ledger-tool verif
 ```
 
 Then run:
+
 ```
 ~/solana/target/release/agave-ledger-tool slot 257197857 -vv | grep "Log truncated"
 ```
+
 The expected output should be non-empty.
 
 A slot with truncated logs can be uploaded to bigtable with the command:
+
 ```
 ~/solana/target/release/agave-ledger-tool bigtable upload 257197857 257197857 --force
 ```
