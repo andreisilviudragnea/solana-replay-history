@@ -452,7 +452,7 @@ Ledger has data for 427359 slots 257034560 to 257472032
 should be identical to the content
 of [bounds.txt](https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/bounds.txt) file.
 
-## 8. Check tx slot for `"Log truncated"` message
+## 8. Check the tx slot for `"Log truncated"` message
 
 Run:
 
@@ -461,7 +461,7 @@ cd /mnt
 ~/solana/target/release/agave-ledger-tool slot 257207162 -vv | grep "Log truncated"
 ```
 
-The expected output should be non-empty:
+The expected output should be **non-empty**:
 
 ```
 [2024-05-15T08:29:44.967464096Z INFO  agave_ledger_tool] agave-ledger-tool 1.17.34 (src:00000000; feat:3746964731, client:Agave)
@@ -474,6 +474,13 @@ The expected output should be non-empty:
         Log truncated
 [2024-05-15T08:29:53.518786028Z INFO  agave_ledger_tool] ledger tool took 8.6s
 ```
+
+If you check the actual output of `~/solana/target/release/agave-ledger-tool slot 257207162 -vv` (not included here
+because it is too long),
+you should see `"Log Messages:"` lines followed by all logs for each transaction in the slot. The last log message for
+the tx with
+signature [4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj)
+should be `"Log truncated"`.
 
 ## 9. Replay the ledger between the snapshot slot and the tx slot
 
@@ -950,6 +957,46 @@ The total time for this process is about 210 minutes (3 hours and 30 minutes):
 - 94 minutes for downloading the ledger archive
 - 37 minutes for extracting the ledger archive
 - 79 minutes for replaying around 9308 slots
+
+## 10. Check the tx slot for `"Log truncated"` message again
+
+Run again:
+
+```bash
+cd /mnt
+~/solana/target/release/agave-ledger-tool slot 257207162 -vv | grep "Log truncated"
+```
+
+The expected output should be **empty**:
+
+```
+[2024-05-15T08:29:44.967464096Z INFO  agave_ledger_tool] agave-ledger-tool 1.17.34 (src:00000000; feat:3746964731, client:Agave)
+[2024-05-15T08:29:44.967591845Z INFO  solana_ledger::blockstore] Maximum open file descriptors: 1000000
+[2024-05-15T08:29:44.967596484Z INFO  solana_ledger::blockstore] Opening database at "/mnt/ledger/rocksdb"
+[2024-05-15T08:29:44.976178871Z INFO  solana_ledger::blockstore_db] Opening Rocks with secondary (read only) access at: "/mnt/ledger/rocksdb/solana-secondary"
+[2024-05-15T08:29:44.976195150Z INFO  solana_ledger::blockstore_db] This secondary access could temporarily degrade other accesses, such as by agave-validator
+[2024-05-15T08:29:52.384323778Z INFO  solana_ledger::blockstore_db] Rocks's automatic compactions are disabled due to Secondary access
+[2024-05-15T08:29:52.384464206Z INFO  solana_ledger::blockstore] "/mnt/ledger/rocksdb" open took 7.4s
+[2024-05-15T08:29:53.518786028Z INFO  agave_ledger_tool] ledger tool took 8.6s
+```
+
+If you check the actual output of `~/solana/target/release/agave-ledger-tool slot 257207162 -vv` (not included here
+because it is too long), you should see `"Log Messages:"` lines followed by all logs for each transaction in the slot.
+All log messages for the tx with
+signature [4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj](https://solscan.io/tx/4QdDG3fjk4vLLHEpxrFYUMux49Eg4vVaynaiKA9fJR64ZSoEcBA4xPpSYAfnSxoB1p2GQAruh8fPoXsUgX5YdZsj)
+should be present and `"Log truncated"` should not be present anymore.
+
+## 11. Upload the replayed slot without truncated logs to Google Bigtable
+
+The slot [257207162](https://solscan.io/block/257207162) without truncated logs can be uploaded to Google Bigtable with
+the command:
+
+```bash
+~/solana/target/release/agave-ledger-tool bigtable upload 257207162 257207162 --force
+```
+
+The `--force` flag forces re-upload of any blocks already present in BigTable instance. Note: re-upload will *not*
+delete any data from the tx-by-addr table, so use it with care.
 
 <details>
 <summary>Other investigations</summary>
