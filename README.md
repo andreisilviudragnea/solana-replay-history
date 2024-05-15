@@ -942,21 +942,21 @@ Also, the logs are not truncated anymore:
 
 </details>
 
-Replaying the ledger is a slow process, it took about 1 hour and 18 minutes for about `9308 (257207163 - 257197855)`
+Replaying the ledger is a slow process, it took about 1 hour and 28 minutes for about `9308 (257207163 - 257197855)`
 slots:
 
 ```bash
-[2024-04-17T23:49:27.914537807Z INFO  solana_ledger::blockstore_processor] ledger processed in 1 hour, 18 minutes, 32 seconds, 574 ms, 656 µs and 192 ns. root slot is 257207163, 1 bank: 257207163
-[2024-04-17T23:49:27.977465869Z INFO  solana_runtime::accounts_background_service] AccountsBackgroundService has stopped
-[2024-04-17T23:49:28.292699419Z INFO  solana_core::accounts_hash_verifier] AccountsHashVerifier has stopped
-[2024-04-17T23:49:29.663924996Z INFO  agave_ledger_tool] ledger tool took 5265.6s
+[2024-05-15T10:17:42.196419595Z INFO  solana_ledger::blockstore_processor] ledger processed in 1 hour, 28 minutes, 14 seconds, 403 ms, 286 µs and 674 ns. root slot is 257207163, 1 bank: 257207163
+[2024-05-15T10:17:42.214536429Z INFO  solana_core::accounts_hash_verifier] AccountsHashVerifier has stopped
+[2024-05-15T10:17:42.279221693Z INFO  solana_runtime::accounts_background_service] AccountsBackgroundService has stopped
+[2024-05-15T10:17:45.102503110Z INFO  agave_ledger_tool] ledger tool took 5498.9s
 ```
 
-The total time for this process is about 210 minutes (3 hours and 30 minutes):
+The total time for this process is about 219 minutes (3 hours and 39 minutes):
 
 - 94 minutes for downloading the ledger archive
 - 37 minutes for extracting the ledger archive
-- 79 minutes for replaying around 9308 slots
+- 88 minutes for replaying around 9308 slots
 
 ## 10. Check the tx slot for `"Log truncated"` message again
 
