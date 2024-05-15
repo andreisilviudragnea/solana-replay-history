@@ -278,7 +278,7 @@ Copying gs://mainnet-beta-ledger-europe-fr2/260918655/hourly/snapshot-261351068-
 Average throughput: 849.9MiB/s
 ```
 
-## 3. Download the ledger archive from Google Cloud Storage for the highest slot less than the tx slot
+## 4. Download the ledger archive from Google Cloud Storage for the highest slot less than the tx slot
 
 The ledger archive contains the ledger data (transactions, blocks, slots, forks) for a specific range of slots. In
 Solana,
@@ -329,7 +329,7 @@ Copying gs://mainnet-beta-ledger-europe-fr2/260488825/rocksdb.tar.zst to file://
 Average throughput: 1.1GiB/s
 ```
 
-## 4. Extract the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) archive
+## 5. Extract the [rocksdb.tar.zst](https://console.cloud.google.com/storage/browser/_details/mainnet-beta-ledger-europe-fr2/257034560/rocksdb.tar.zst) archive
 
 This can also take a while, so use a screen session for this command too:
 
@@ -452,7 +452,7 @@ Ledger has data for 427359 slots 257034560 to 257472032
 should be identical to the content
 of [bounds.txt](https://storage.googleapis.com/mainnet-beta-ledger-europe-fr2/257034560/bounds.txt) file.
 
-## 7. Hook a simple Geyser plugin in the ledger replay process
+## 8. Hook a simple Geyser plugin in the ledger replay process
 
 The `agave-ledger-tool` has a `--geyser-plugin-config` parameter that can be used to hook a Geyser plugin in the ledger
 replay process. For this example, we will use a very simple plugin that logs only the expected tx with signature
@@ -475,7 +475,7 @@ In my case, it looks something like this:
 }
 ```
 
-## 8. Replay the ledger between the snapshot slot and the tx slot
+## 9. Replay the ledger between the snapshot slot and the tx slot
 
 The ledger replay process will start from the snapshot slot [257197855](https://solscan.io/block/257197855), which
 contains all the account states at the specific slot. The ledger will be replayed until after the tx
