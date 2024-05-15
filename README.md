@@ -118,6 +118,10 @@ of [solana-bigtable](https://github.com/solana-labs/solana-bigtable) repository.
 I recommend downloading everything from the endpoint closest to your machine. In my case, I am downloading from Europe
 endpoint, so my download speed is the best.
 
+All downloads in this tutorial will use the [gcloud](https://cloud.google.com/sdk/docs/install#deb) CLI utility. The
+first command to run is `gcloud auth login` to authenticate with Google Cloud. Also, all downloads will be done in the
+`/mnt/ledger` directory.
+
 </details>
 
 An important part of the ledger replay process is the genesis archive. This archive contains the genesis configuration
