@@ -1,6 +1,6 @@
-## Geyser plugin events
+# Geyser plugin events
 
-# Runtime slot 22246
+## Runtime slot 22246
 
 ```
 [2024-05-22T19:02:27.664492000Z INFO  simple_solana_geyser_plugin] update_account(slot=22246, pubkey=SysvarS1otHashes111111111111111111111111111, owner=Sysvar1111111111111111111111111111111111111, executable=false, write_version=158937, tx_sig=None, is_startup=false)
@@ -102,6 +102,8 @@
   and `notify_block_metadata(slot=22246, blockhash=GSGyZdooXpLuUq4bqCkYaiddG8VkkCqsKdWqxcS7zjm3, parent_slot=22245, parent_blockhash=dpgQseWxGRWCak5xruW9XYJriKpN2fgUdXALbpep1zw, rewards=[Reward { pubkey: "5WLrrfvSK2vj2XZZSNiJBvUrtbHvqgz5vF4CekzurMKB", lamports: 5000, post_balance: 499888875000, reward_type: Some(Fee), commission: None }], block_time=Some(1716404547), block_height=Some(22236), executed_tx_count=1, entry_count=0)`
   events are logged.
 - `notify_block_metadata` `entry_count` is always zero, so it seems broken.
+
+## Startup slots
 
 TODO: Investigate startup events:
 
