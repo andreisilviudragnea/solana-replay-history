@@ -94,7 +94,8 @@
 - Multiple `notify_entry` events with `executed_tx_count=0`.
 - When `notify_entry` has `executed_tx_count=1`, it is followed by `update_account` events for the executed transactions
   from that entry.
-- To the end of the slot, `SysvarRecentBlockHashes` and `SysvarSlotHistory` are updated with `tx_sig=None`.
+- To the end of the slot, `SysvarRecentBlockHashes` (deprecated since 2021) and `SysvarSlotHistory` are updated
+  with `tx_sig=None`.
 - `[2024-05-22T19:02:28.139981000Z INFO  simple_solana_geyser_plugin] update_account(slot=22246, pubkey=5WLrrfvSK2vj2XZZSNiJBvUrtbHvqgz5vF4CekzurMKB, owner=11111111111111111111111111111111, executable=false, write_version=158942, tx_sig=None, is_startup=false)`
   probably updates balance of validator identity account with tx fee reward (`tx_sig=None`).
 - Immediately after processing the slot, `update_slot_status(slot=22246, parent=Some(22245), status=Processed)`
