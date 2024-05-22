@@ -110,6 +110,8 @@ TODO: Investigate startup events:
 - feature accounts
 - native accounts
 - sysvar accounts
+- stake accounts
+- SysvarRent
 - some other accounts with system account owner
 - special accounts like token
   program: `[2024-05-22T19:14:15.622557000Z INFO  simple_solana_geyser_plugin] update_account(slot=0, pubkey=TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb, owner=BPFLoaderUpgradeab1e11111111111111111111111, executable=true, write_version=0, tx_sig=None, is_startup=true)`
