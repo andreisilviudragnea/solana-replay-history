@@ -99,3 +99,4 @@
   probably updates balance of validator identity account with tx fee reward (`tx_sig=None`).
 - Immediately after processing the slot, `update_slot_status(slot=14553, parent=Some(14552), status=Processed)`
   and `notify_block_metadata` events are logged.
+- `notify_block_metadata` `entry_count` is always zero, so it seems broken.
