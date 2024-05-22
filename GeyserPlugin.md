@@ -102,3 +102,11 @@
   and `notify_block_metadata(slot=22246, blockhash=GSGyZdooXpLuUq4bqCkYaiddG8VkkCqsKdWqxcS7zjm3, parent_slot=22245, parent_blockhash=dpgQseWxGRWCak5xruW9XYJriKpN2fgUdXALbpep1zw, rewards=[Reward { pubkey: "5WLrrfvSK2vj2XZZSNiJBvUrtbHvqgz5vF4CekzurMKB", lamports: 5000, post_balance: 499888875000, reward_type: Some(Fee), commission: None }], block_time=Some(1716404547), block_height=Some(22236), executed_tx_count=1, entry_count=0)`
   events are logged.
 - `notify_block_metadata` `entry_count` is always zero, so it seems broken.
+
+TODO: Investigate startup events:
+
+- feature accounts
+- native accounts
+- some other accounts with system account owner
+- special accounts like token
+  program: `[2024-05-22T19:14:15.622557000Z INFO  simple_solana_geyser_plugin] update_account(slot=0, pubkey=TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb, owner=BPFLoaderUpgradeab1e11111111111111111111111, executable=true, write_version=0, tx_sig=None, is_startup=true)`
